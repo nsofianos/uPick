@@ -10,9 +10,16 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
+    const queryString = `
+    SELECT polls.*, choices.*, voters.*
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN voters ON choice_id = choices.id
+    `;
+    db.query(queryString)
       .then(data => {
         const index = data.rows;
+        console.log(index);
         res.json({ index });
       })
       .catch(err => {

@@ -10,12 +10,36 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
+    const queryString = `
+    SELECT polls.*, choices.*, voters.*
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN voters ON choice_id = choices.id
+    `;
+    db.query(queryString)
       .then(data => {
-        const polls = data.rows;
-        res.json({ polls });
+        const poll = data.rows;
+        console.log(poll);
+        res.json({ poll });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+  router.get("/r", (req, res) => {
+    const queryString = `
+    SELECT polls.*, choices.*, voters.*
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN voters ON choice_id = choices.id
+    `;
+    db.query(queryString)
+      .then(data => {
+        const poll = data.rows;
+        console.log(poll);
+        res.json({ poll });
       })
       .catch(err => {
         res
