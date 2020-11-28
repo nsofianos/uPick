@@ -1,5 +1,5 @@
 /*
- * All routes for Widgets are defined here
+ * All routes for Polls are defined here
  * Since this file is loaded in server.js into api/widgets,
  *   these routes are mounted onto /widgets
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
@@ -10,12 +10,36 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
+    const queryString = `
+    SELECT polls.*, choices.*, voters.*
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN voters ON choice_id = choices.id
+    `;
+    db.query(queryString)
       .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
+        const poll = data.rows;
+        console.log(poll);
+        res.json({ poll });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+  router.get("/r", (req, res) => {
+    const queryString = `
+    SELECT polls.*, choices.*, voters.*
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN voters ON choice_id = choices.id
+    `;
+    db.query(queryString)
+      .then(data => {
+        const poll = data.rows;
+        console.log(poll);
+        res.json({ poll });
       })
       .catch(err => {
         res
