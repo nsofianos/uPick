@@ -1,5 +1,5 @@
 /*
- * All routes for Widgets are defined here
+ * All routes for Polls are defined here
  * Since this file is loaded in server.js into api/widgets,
  *   these routes are mounted onto /widgets
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
@@ -14,8 +14,8 @@ module.exports = (db) => {
     console.log(query);
     db.query(query)
       .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
+        const polls = data.rows;
+        res.json({ polls });
       })
       .catch(err => {
         res
