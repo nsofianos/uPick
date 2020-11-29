@@ -35,6 +35,10 @@ module.exports = (db) => {
       });
   });
 
+  router.post("/:id", (req, res) => {
+
+  });
+
 
   router.get("/:id/r", (req, res) => {
     const queryString = `

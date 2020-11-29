@@ -23,11 +23,12 @@
       </div>
 
 
-      <form id="poll-form" method="" action="">
+      <form id="poll-form" method="POST" action="/polls/<%= pollID %>">
         <textarea name="text" id="poll-title" placeholder="What needs figuring out?"></textarea>
         <textarea name="text" id="poll-choice1" placeholder="Enter poll choice"></textarea>
         <textarea name="text" id="poll-choice2" placeholder="Enter poll choice"></textarea>
         <textarea name="text" id="poll-choice3" placeholder="Enter poll choice"></textarea>
+        <button type="submit" id="poll-submit-button">Submit</button>
       </form>
     </main>
 
