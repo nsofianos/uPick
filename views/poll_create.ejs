@@ -4,10 +4,11 @@
     <title>Home Page</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Shrikhand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/create.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -15,18 +16,21 @@
 
   <body>
     <%- include('partials/_header') %>
-    <div class="cheeky-comment">
-      <p class="bold-comment">I don't know, you pick.</p>
-      <p class="light-comment">(No really... I'm easy)</p>
-    </div>
+    <main>
+      <div class="cheeky-comment">
+        <p class="bold-comment">I don't know, you pick.</p>
+        <p class="light-comment">(No really... I'm easy)</p>
+      </div>
 
 
-    <form id="poll-form" method="" action="">
-      <textarea name="text" id="poll-title" placeholder="What needs figuring out?"></textarea>
-      <textarea name="text" id="poll-choice1" placeholder="Enter poll choice"></textarea>
-      <textarea name="text" id="poll-choice2" placeholder="Enter poll choice"></textarea>
-      <textarea name="text" id="poll-choice3" placeholder="Enter poll choice"></textarea>
-    </form>
+      <form id="poll-form" method="" action="">
+        <textarea name="text" id="poll-title" placeholder="What needs figuring out?"></textarea>
+        <textarea name="text" id="poll-choice1" placeholder="Enter poll choice"></textarea>
+        <textarea name="text" id="poll-choice2" placeholder="Enter poll choice"></textarea>
+        <textarea name="text" id="poll-choice3" placeholder="Enter poll choice"></textarea>
+      </form>
+    </main>
+
 
 
 
