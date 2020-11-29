@@ -14,15 +14,21 @@
   </head>
 
   <body>
+    <%- include('partials/_header') %>
     <div class="cheeky-comment">
       <p class="bold-comment">I don't know, you pick.</p>
       <p class="light-comment">(No really... I'm easy)</p>
     </div>
 
 
-    <div class='poll-container'>
-      <p>title</p>
-    </div>
+    <form id="poll-form" method="" action="">
+      <textarea name="text" id="poll-title" placeholder="What needs figuring out?"></textarea>
+      <textarea name="text" id="poll-choice1" placeholder="Enter poll choice"></textarea>
+      <textarea name="text" id="poll-choice2" placeholder="Enter poll choice"></textarea>
+      <textarea name="text" id="poll-choice3" placeholder="Enter poll choice"></textarea>
+    </form>
+
+
 
   </body>
 </html>
