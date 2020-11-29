@@ -9,6 +9,11 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+
+  router.get("/create", (req, res) => {
+    res.render('poll_create');
+  });
+
   router.get("/:id", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
@@ -29,6 +34,8 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+
   router.get("/:id/r", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
@@ -48,5 +55,9 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+
+
+
   return router;
 };
