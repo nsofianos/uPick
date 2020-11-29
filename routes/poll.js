@@ -10,6 +10,15 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
+  const generateRandomString = () => {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let randomString = "";
+    for (let i = 0; i < 6; i++) {
+      randomString += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return randomString;
+  };
+
   router.get("/create", (req, res) => {
     res.render('poll_create');
   });
@@ -26,7 +35,7 @@ module.exports = (db) => {
         const poll = data.rows;
         console.log(poll);
         const templateVars = { poll };
-        res.render({ poll });
+        res.render('poll_voting');
       })
       .catch(err => {
         res
@@ -35,8 +44,9 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/:id", (req, res) => {
-
+  router.post("/", (req, res) => {
+    const pollID = generateRandomString();
+    res.redirect(`/polls/${pollID}`);
   });
 
 
