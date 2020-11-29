@@ -11,16 +11,19 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
     const queryString = `
-    SELECT polls.*, choices.*, voters.*
+    SELECT polls.title AS polls, choices.name AS choices
     FROM polls
     JOIN choices ON poll_id = polls.id
-    JOIN voters ON choice_id = choices.id
+    GROUP BY polls, choices
     `;
     db.query(queryString)
       .then(data => {
         const index = data.rows;
         console.log(index);
-        res.json({ index });
+        // console.log(data);
+        const templateVars = { index };
+        // res.json({ index });
+        res.render('index', templateVars);
       })
       .catch(err => {
         res

@@ -9,7 +9,7 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
+  router.get("/:id", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls
@@ -20,7 +20,8 @@ module.exports = (db) => {
       .then(data => {
         const poll = data.rows;
         console.log(poll);
-        res.json({ poll });
+        const templateVars = { poll };
+        res.render({ poll });
       })
       .catch(err => {
         res
@@ -28,7 +29,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  router.get("/r", (req, res) => {
+  router.get("/:id/r", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls

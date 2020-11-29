@@ -39,7 +39,7 @@ const pollRoutes = require("./routes/poll");
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/", indexRoutes(db));
-app.use("/:id", pollRoutes(db));
+app.use("/polls", pollRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 
