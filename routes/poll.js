@@ -24,11 +24,11 @@ module.exports = (db) => {
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
     // Get creatorId using SQL and cookie
-    SELECT creators.id FROM creators WHERE email = theiremail
+    //SELECT creators.id FROM creators WHERE email = theiremail
     // Extract data from request to get queryParams
     // Write query
 
-    db.query(queryString)
+    //db.query(queryString)
     res.redirect(`/polls/${pollID}`);
   });
 

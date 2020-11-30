@@ -1,0 +1,67 @@
+body {
+  background-color: #EEE;
+  font-family: 'Oswald', 'sans-serif';
+
+}
+
+main {
+  font-weight: 200;
+  font-size: 2.5em;
+  display:flex;
+  justify-content: space-around;
+}
+
+textarea {
+  width: 80%;
+  height: 2em;
+  margin: 0.5em;
+  resize: none;
+  background-color: #EEE;
+  border: none;
+  border-bottom: 1px solid rgb(26, 25, 25);
+  font-size: 30px;
+  font-family: derp;
+}
+
+
+div.cheeky-comment {
+  width:30%;
+  margin:none;
+  display:flex;
+  flex-direction:column;
+  padding-left:1.5em;
+  position: relative;
+  top: 130px;
+}
+
+body p.bold-comment {
+  margin: 0;
+  font-weight: 400;
+}
+
+body p.light-comment {
+  color: rgb(26, 25, 25);
+  margin-top: 0px;
+  font-size: 24px;
+}
+
+#poll-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  width: 50%;
+  float: right;
+  margin: 1em;
+  border: solid;
+}
+
+#poll-title {
+  margin-bottom: 1.5em;
+}
+
+#poll-submit-button {
+  margin-right: 1em;
+  align-self: flex-end;
+}
+
