@@ -25,7 +25,6 @@ $(() => {
       adminLink,
       submissionLink
     };
-    console.log("whats data", data);
     // Make POST request to /polls
     $.post('/polls', data)
 

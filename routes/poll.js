@@ -23,6 +23,8 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
+
+    const cookie = req.session.cookie;
     const formData = req.body.text;
     const title = formData[0];
     const description = formData[1];
@@ -45,6 +47,9 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
     // Get creatorId
     // Add poll, get poll id
     // Add choices
+    db.query(`
+    SELECT creators.id FROM creators WHERE cookie = ''
+    `)
     res.redirect(`/`);
   });
 
