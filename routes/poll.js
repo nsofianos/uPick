@@ -24,11 +24,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
     // Get creatorId using SQL and cookie
-<<<<<<< Updated upstream
-    //SELECT creators.id FROM creators WHERE email = theiremail
-=======
     // SELECT creators.id FROM creators WHERE email = theiremail
->>>>>>> Stashed changes
     // Extract data from request to get queryParams
     // Write query
     // const pollId = req.pollId;
@@ -63,15 +59,8 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
       `http://localhost:8080/${pollId}`,
       `http://localhost:8080/${pollId}/results`
 
-<<<<<<< Updated upstream
-    //db.query(queryString)
-    res.redirect(`/polls/${pollID}`);
-  });
-
-=======
     ];
     const choiceParams = [
->>>>>>> Stashed changes
 
     ];
     console.log("req.body", req.body);
