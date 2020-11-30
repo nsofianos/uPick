@@ -19,10 +19,20 @@ module.exports = (db) => {
     return randomString;
   };
 
+  // Render poll creation page
   router.get("/create", (req, res) => {
-    res.render('poll_create');
+    // const cookie = req.session.user_id;
+    const cookie = true;
+    if (cookie) {
+      res.render('poll_create');
+    } else {
+      res.redirect("/");
+    }
+
+
   });
 
+  // Render voting + links page
   router.get("/:id", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
@@ -44,12 +54,13 @@ module.exports = (db) => {
       });
   });
 
+  // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
     const pollID = generateRandomString();
     res.redirect(`/polls/${pollID}`);
   });
 
-
+  // Render poll results page
   router.get("/:id/r", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
