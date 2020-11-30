@@ -6,22 +6,48 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
     const queryString = `
-    SELECT polls.title AS polls, choices.name AS choices
+    SELECT polls.id, polls.title AS polls, choices.name AS choices
     FROM polls
     JOIN choices ON poll_id = polls.id
-    GROUP BY polls, choices
+    ORDER BY polls.id
     `;
     db.query(queryString)
       .then(data => {
         const index = data.rows;
+        // const id = data.rows.id;
+        // const choices = data.row.choices;
         console.log(index);
         // console.log(data);
-        const templateVars = { index };
+        var currentPollId = -1; // or whatever you know will never exist
+        var currentPollObj = null;
+        var polls = [];
+        for (const row of index) {
+          if (currentPollId != row.id) {
+            // insert the previously constructed poll object into the array
+            if (currentPollObj !== null) {
+              polls.push(currentPollObj);
+            }
+
+            // we've found a new unique poll id, create a new object to represent this new poll
+            currentPollId = row.id;
+
+            currentPollObj = {};
+            currentPollObj.question = row.polls;
+            currentPollObj.choices = [];
+          }
+
+          currentPollObj.choices.push(row.choices);
+        }
+        // insert the last poll object, since that won't be done in the loop
+        // note: what if you have no polls in the database?
+        polls.push(currentPollObj);
+        console.log(polls);
+        const templateVars = { polls };
         // res.json({ index });
         res.render('index', templateVars);
       })
