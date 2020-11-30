@@ -23,30 +23,6 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
-    // Get creatorId using SQL and cookie
-    // SELECT creators.id FROM creators WHERE email = theiremail
-    // Extract data from request to get queryParams
-    // Write query
-    // const pollId = req.pollId;
-    // db.query(queryString) // query for getting specific creator from table
-    //   .then(data => {
-    //     return data.rows[0].id; // creator id
-    //   })
-    //   .then(creatorId => {
-    //     const queryParams = [
-    //       creatorId,
-    //       req.title,
-    //       req.description,
-    //       req.pollId,
-    //       req.adminLink,
-    //       req.submissionLink
-    //     ];
-    //     const queryString = `
-    //     INSERT INTO polls (creator_id, title, description, poll_id, admin_link, submission_link)
-    //     VALUES ($1, $2, $3, $4, $5, $6);
-    //     `;
-    //     db.query(queryString, queryParams).then(res => res.rows[0]);
-    //   })
     const formData = req.body.text;
     const title = formData[0];
     const description = formData[1];
@@ -58,15 +34,17 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
       description,
       `http://localhost:8080/${pollId}`,
       `http://localhost:8080/${pollId}/results`
-
     ];
     const choiceParams = [
-
+      //pollId
+      //choice names
     ];
-    console.log("req.body", req.body);
-    console.log("req.body.text", req.body.text);
-    console.log("req.body.text[0]", req.body.text[0]);
-    // res.redirect(`/polls/${pollId}`);
+    for (const name of choiceNames) {
+      choiceParams.push(name);
+    }
+    // Get creatorId
+    // Add poll, get poll id
+    // Add choices
     res.redirect(`/`);
   });
 
