@@ -6,31 +6,33 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
 
-  const generateRandomString = () => {
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let randomString = "";
-    for (let i = 0; i < 6; i++) {
-      randomString += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return randomString;
-  };
-
   // Render poll creation page
   router.get("/create", (req, res) => {
-    // const cookie = req.session.user_id;
-    const cookie = true;
-    if (cookie) {
+    // const user = req.session.user_id;
+    const user = true;
+    if (user) {
       res.render('poll_create');
     } else {
       res.redirect("/");
     }
-
-
   });
+
+  // Add a new poll to database + redirect to voting page
+  router.post("/", (req, res) => {
+    // Get creatorId using SQL and cookie
+    SELECT creators.id FROM creators WHERE email = theiremail
+    // Extract data from request to get queryParams
+    // Write query
+
+    db.query(queryString)
+    res.redirect(`/polls/${pollID}`);
+  });
+
+
 
   // Render voting + links page
   router.get("/:id", (req, res) => {
@@ -54,14 +56,8 @@ module.exports = (db) => {
       });
   });
 
-  // Add a new poll to database + redirect to voting page
-  router.post("/", (req, res) => {
-    const pollID = generateRandomString();
-    res.redirect(`/polls/${pollID}`);
-  });
-
   // Render poll results page
-  router.get("/:id/r", (req, res) => {
+  router.get("/:id/results", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls
