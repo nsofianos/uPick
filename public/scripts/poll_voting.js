@@ -12,4 +12,20 @@ $(() => {
       $('.share-links').slideUp();
     }
   });
+
+  // Copy links to clipboard on COPY button press
+  // Admin link
+  $('#admin-link-btn').click(() => {
+    $('#admin-link').select();
+    document.execCommand('copy');
+    $('#admin-link-btn').after('<p id="copy-alert">Copied!</p>');
+    $('#copy-alert').fadeOut('slow');
+  });
+  // Submission link
+  $('#sub-link-btn').click(() => {
+    $('#sub-link').select();
+    document.execCommand('copy');
+    $('#sub-link-btn').after('<p id="copy-alert">Copied!</p>');
+    $('#copy-alert').fadeOut('slow');
+  });
 });
