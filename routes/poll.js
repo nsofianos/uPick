@@ -121,23 +121,14 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
   // Render poll results page
   router.get("/:id/r", (req, res) => {
+    res.render('poll_results');
+    const pollid = req.params
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls
     JOIN choices ON poll_id = polls.id
     JOIN voters ON choice_id = choices.id
     `;
-    db.query(queryString)
-      .then(data => {
-        const poll = data.rows;
-        console.log(poll);
-        res.json({ poll });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
   });
 
   // HELPER FUNCTIONS
