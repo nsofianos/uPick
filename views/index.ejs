@@ -10,13 +10,15 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
-
+  <header>
+    <%- include('partials/_header'); %>
+  </header>
   <body>
     <h1>Hello World!</h1>
-    <h3><% for (const poll of polls) { %></h3>
+    <% for (const poll of polls) { %>
     <h3><%= poll.question %></h3>
-    <h3><% for (const choice of poll.choices) { %></h3>
-    <h3><%= choice %></h3>
+    <% for (const choice in poll.choicesNRanks) { %>
+    <h3><%= choice %> <%= poll.choicesNRanks[choice] %></h3>
     <% } %>
     <% } %>
   
