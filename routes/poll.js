@@ -31,9 +31,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
     const choiceNames = formData.slice(2); // array of choice names
     const pollId = generateRandomString();
 
-    db.query(`
-    SELECT creators.id FROM creators WHERE cookie = $1;
-    `, [cookie])
+    db.query(`SELECT creators.id FROM creators WHERE cookie = $1;`, [cookie])
     .then(data => {
       // Get specific creator_id from cookie
       return data.rows[0]; // {id: 1}
@@ -44,7 +42,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
         creator_id,
         title,
         description,
-        `http://localhost:8080/${pollId}/results`,
+        `http://localhost:8080/${pollId}/r`,
         `http://localhost:8080/${pollId}`
       ];
 
@@ -100,8 +98,8 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
       });
   });
 
-  // Add new choice_rankings for this user
-  router.post("/:id/", (req, res) => {
+  // Add new choice_rankings for a choices
+  router.post("/:id", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls
@@ -122,7 +120,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
   });
 
   // Render poll results page
-  router.get("/:id/results", (req, res) => {
+  router.get("/:id/r", (req, res) => {
     const queryString = `
     SELECT polls.*, choices.*, voters.*
     FROM polls
