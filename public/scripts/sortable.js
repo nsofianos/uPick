@@ -1,3 +1,0 @@
-$(() => {
-$('#sortable').sortable();
-});
