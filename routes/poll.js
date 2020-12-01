@@ -45,11 +45,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
       })
       .then(poll => {
         const poll_id = poll.id;
-        const choiceParams = [poll_id];
-        for (const name of choiceNames) {
-          choiceParams.push(name);
-        }
-
+        console.log("poll_id:", poll_id);
         const queryString = `
       INSERT INTO choices (poll_id, name)
       VALUES ($1, $2);
@@ -60,23 +56,40 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
           db.query(queryString, [poll_id, name]);
         }
       })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
     res.redirect(`/polls/${pollKey}`);
   });
 
   // Render voting + links page
   router.get("/:id", (req, res) => {
+    const pollKey = req.params.id;
+    console.log("POLLKEY", pollKey);
     const queryString = `
-    SELECT polls.*, choices.*, voters.*
+    SELECT polls.*, choices.name
     FROM polls
     JOIN choices ON poll_id = polls.id
-    JOIN voters ON choice_id = choices.id
+    WHERE submission_link LIKE $1;
     `;
-    db.query(queryString)
+    const queryParams = [`%${pollKey}`];
+    db.query(queryString, queryParams)
       .then(data => {
-        const poll = data.rows;
-        console.log(poll);
-        const templateVars = { poll };
-        res.render('poll_voting');
+        const queryRows = data.rows; // array of objects
+        let choices = [];
+        for (const row of queryRows) {
+          choices.push(row.name);
+        }
+        const templateVars = {
+          title: queryRows[0].title,
+          description: queryRows[0].description,
+          admin_link: queryRows[0].admin_link,
+          submission_link: queryRows[0].submission_link,
+          choices
+        }
+        res.render('poll_voting', templateVars);
       })
       .catch(err => {
         res
