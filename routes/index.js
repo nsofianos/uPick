@@ -21,7 +21,6 @@ module.exports = (db) => {
       .then(data => {
         const index = data.rows;
         console.log(index);
-        // console.log(data);
         var currentPollId = -1; // or whatever you know will never exist
         var currentPollObj = null;
         var polls = [];
@@ -57,37 +56,3 @@ module.exports = (db) => {
   });
   return router;
 };
-
-
-/*
-[ 
-  { question: 'Which fruit should I have as a snack?',
-    choiceNRanks: {
-      Honeydew: 2,
-      Mango: 1,
-      Pineapple: 3
-    }
-  },
-  { question: 'What drink should I order?',
-    choiceNRanks: {
-      Corona: 3,
-      Stella Artois: 2,
-      Bacardi 151: 1
-    }
-  },
-  { question: 'What should I order for lunch?',
-    choiceNRanks: {
-      McDonalds: 1,
-      Pizza Hut: 2,
-      Burger King: 3
-    } 
-  } 
-]
-
-[ { question: 'Which fruit should I have as a snack?',
-    choices: [ 'Honeydew', 'Mango', 'Pineapple' ] },
-  { question: 'What drink should I order?',
-    choices: [ 'Corona', 'Stella Artois', 'Bacardi 151' ] },
-  { question: 'What should I order for lunch?',
-    choices: [ 'McDonalds', 'Burger King', 'Pizza Hut' ] } ]
-*/
