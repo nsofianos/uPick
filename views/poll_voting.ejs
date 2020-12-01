@@ -15,29 +15,29 @@
     <script src="https://code.jquery.com/jquery-3.x-git.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <script src="/scripts/sortable.js"></script>
+    <script src="/scripts/poll_voting.js"></script>
   </head>
 
   <body>
     <%- include('partials/_header') %>
     <main>
-      <div class="cheeky-comment">
-        <p class="bold-comment">There's nothing here yet, idiot.</p>
-        <p class="light-comment">(hurry up i'm lonely)</p>
-      </div>
       <div>
+        <p class="bold-comment"><%= title %></p>
         <ul id="sortable">
-          <li>blah</li>
-          <li>a</li>
-          <li>v</li>
+          <% for (const choice of choices) { %>
+            <li><%= choice %></li>
+          <% } %>
         </ul>
       </div>
-
-
+      <button id="share-btn" type="button">SHARE</button>
+      <div class="share-links">
+        <span>Results page</span>
+        <input type="text" value=<%= admin_link %> id="adminLink">
+        <button id="admin-link-btn" type="button">Copy link</button>
+        <span>Voting page</span>
+        <input type="text" value=<%= submission_link %> id="subLink">
+        <button id="sub-link-btn" type="button">Copy link</button>
+      </div>
     </main>
-
-
-
-
   </body>
 </html>
