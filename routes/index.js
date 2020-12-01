@@ -45,7 +45,6 @@ module.exports = (db) => {
         polls.push(currentPollObj);
         console.log(polls);
         const templateVars = { polls };
-        // res.json({ index });
         res.render('index', templateVars);
       })
       .catch(err => {
