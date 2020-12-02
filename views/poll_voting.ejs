@@ -21,6 +21,14 @@
 
   <body>
     <%- include('partials/_header') %>
+    <% if (!inDatabase) { %>
+      <main>
+        <div class="cheeky-comment">
+          <p class="bold-comment">This poll doesn't exist</p>
+          <p class="light-comment">(Talk to me when you have the right link, bucko)</p>
+        </div>
+      </main>
+      <% } else { %>
     <main>
       <div>
         <p class="bold-comment"><%= title %></p>
@@ -45,5 +53,6 @@
         <button id="sub-link-btn" type="button">Copy link</button>
       </div>
     </main>
+    <% } %>
   </body>
 </html>

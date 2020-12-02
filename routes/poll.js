@@ -99,14 +99,14 @@ module.exports = (db) => {
           description: queryRows[0].description,
           admin_link: queryRows[0].admin_link,
           submission_link: queryRows[0].submission_link,
-          choices
+          choices,
+          inDatabase: true
         }
         res.render('poll_voting', templateVars);
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+        res.status(500)
+        res.render('poll_voting', {inDatabase: false});
       });
   });
 
