@@ -6,9 +6,9 @@
  */
 
 const express = require('express');
-const router = express.Router(); //define routes w/o initializing express app like in server.js
+const router = express.Router();
 
-module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
+module.exports = (db) => {
 
   // Render poll creation page
   router.get("/create", (req, res) => {
@@ -53,21 +53,24 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
         // Add each choice to choices table
         for (const name of choiceNames) {
-          db.query(queryString, [poll_id, name]);
+          if (name !== "") {
+            db.query(queryString, [poll_id, name]);
+          }
         }
+      })
+      .then(() => {
+        res.redirect(`/polls/${pollKey}`);
       })
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
       });
-    res.redirect(`/polls/${pollKey}`);
   });
 
   // Render voting + links page
   router.get("/:id", (req, res) => {
     const pollKey = req.params.id;
-    console.log("POLLKEY", pollKey);
     const queryString = `
     SELECT polls.*, choices.name
     FROM polls
@@ -77,7 +80,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
     const queryParams = [`%${pollKey}`];
     db.query(queryString, queryParams)
       .then(data => {
-        const queryRows = data.rows; // array of objects
+        const queryRows = data.rows; // array of row objects
         let choices = [];
         for (const row of queryRows) {
           choices.push(row.name);
@@ -127,7 +130,7 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
     Promise.all(promises)
       .then(() => {
-        res.send("Redirect");
+        res.send("Redirect"); // Send to AJAX to redirect
       })
       .catch(err => {
         res
