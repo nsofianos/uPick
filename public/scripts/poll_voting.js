@@ -25,8 +25,8 @@ $(() => {
   $('#sub-link-btn').click(() => {
     $('#sub-link').select();
     document.execCommand('copy');
-    $('#sub-link-btn').after('<p id="copy-alert">Copied!</p>');
-    $('#copy-alert').fadeOut('slow');
+    $('#sub-link-btn').after('<p id="copy-alert2">Copied!</p>');
+    $('#copy-alert2').fadeOut('slow');
   });
 
   // Submit votes to backend to create choice_rankings
