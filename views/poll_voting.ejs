@@ -23,6 +23,9 @@
     <main>
       <div>
         <p class="bold-comment"><%= title %></p>
+        <% if (description) { %>
+        <p><%= description %></p>
+        <% } %>
         <ul id="sortable">
           <% for (const choice of choices) { %>
             <li><%= choice %></li>
