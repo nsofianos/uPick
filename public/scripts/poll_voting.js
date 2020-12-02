@@ -51,7 +51,7 @@ $(() => {
     $.post(`/polls/${pollKey}`, dataObj)
       .then((data) => {
         if (data === "Redirect") {
-          window.location = '/'
+          window.location = `/polls/${pollKey}/result`
         }
       });
   });
