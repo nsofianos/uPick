@@ -196,13 +196,12 @@ module.exports = (db) => {
       console.log(choices);
       console.log('votes:', totalVotes, 'totalchoices', totalChoices);
 
-      const templateVars = { title, description, choices };
+      const templateVars = { title, description, choices, inDatabase: true };
       res.render('poll_results', templateVars);
     })
     .catch(err => {
-      res
-          .status(500)
-          .json({ error: err.message });
+      res.status(500)
+      res.render('poll_voting', {inDatabase: false});
     });
 
   });
