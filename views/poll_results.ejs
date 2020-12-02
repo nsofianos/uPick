@@ -10,16 +10,44 @@
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
     <link rel="stylesheet" href="/styles/results.css" type="text/css" />
     <script src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      let title = <%- JSON.stringify(title) %>;
+      let description = <%- JSON.stringify(description) %>;
+      let choices = <%- JSON.stringify(choices) %>;
+      console.log(choices[0].name);
+      const chartData = [['bla', 'bla']];
+      for (const choice of choices) {
+        chartData.push([`${choice.name}`, parseInt(choice.rankSum)])
+      }
+      console.log('chartdata', chartData)
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+          pieHole: 0.6,
+          chartArea: {left:20,top:70,width:'70%',height:'75%'},
+          backgroundColor: '#EEE',
+          colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+          legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' } }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 
   </head>
 
   <body>
     <%- include('partials/_header') %>
     <main>
-      <div class="cheeky-comment">
-        <p class="bold-comment">Results? you have none</p>
-        <p class="light-comment">(figure it out dude)</p>
-      </div>
 
       <div id="poll-form">
           <p class="bold-comment"><%= title %></p>
@@ -28,12 +56,18 @@
             <% for (choice of choices) { %>
               <div class="choice-result">
                 <li><%= choice.name %></li>
-                <span><%= choice.ranking %></span>
+                <span><%= choice.percentage %>%</span>
               </div>
               <% } %>
           </ul>
-        <button type="submit" id="poll-submit-button">Share</button>
+        <div class="form-buttons">
+          <button type="submit" id="share-button">Share</button>
+          <button type="submit" id="vote-button">Vote</button>
         </div>
+      </div>
+
+      <div id="piechart" style="width: 800px; height: 500px;"></div>
+
 
     </main>
 

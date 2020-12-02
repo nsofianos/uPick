@@ -157,18 +157,17 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
         return n + sumTotalChoices(n - 1);
       }
 
-      const percentages = [];
+      //calculate percentage of votes for each choice using borda count method
       for (const choice of choices) {
-        const percent = Math.round(((choice.rankSum / (sumTotalChoices(totalChoices) * totalVotes))*100) * 10) / 10;
-        percentages.push(percent);
+        choice.percentage = Math.round(((choice.rankSum / (sumTotalChoices(totalChoices) * totalVotes))*100) * 10) / 10;
       }
 
-      console.log('percentages', percentages);
+
       console.log('sum', sumTotalChoices(5));
       console.log(choices);
       console.log('votes:', totalVotes, 'totalchoices', totalChoices);
 
-      const templateVars = { title, description, choices, percentages };
+      const templateVars = { title, description, choices };
       res.render('poll_results', templateVars);
     })
     .catch(err => {
