@@ -196,7 +196,7 @@ module.exports = (db) => {
       console.log(choices);
       console.log('votes:', totalVotes, 'totalchoices', totalChoices);
 
-      const templateVars = { title, description, choices, inDatabase: true };
+      const templateVars = { title, description, choices, pollKey, inDatabase: true };
       res.render('poll_results', templateVars);
     })
     .catch(err => {
