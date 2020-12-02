@@ -9,24 +9,40 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/create.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/voting.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.x-git.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script src="/scripts/poll_voting.js"></script>
   </head>
 
   <body>
     <%- include('partials/_header') %>
     <main>
-      <div class="cheeky-comment">
-        <p class="bold-comment">There's nothing here yet, idiot.</p>
-        <p class="light-comment">(hurry up i'm lonely)</p>
+      <div>
+        <p class="bold-comment"><%= title %></p>
+        <% if (description) { %>
+        <p><%= description %></p>
+        <% } %>
+        <ul id="sortable">
+          <% for (const choice of choices) { %>
+            <li><%= choice %></li>
+          <% } %>
+          <li hidden><%= submission_link.slice(-6) %></li>
+        </ul>
       </div>
-
-
+      <button id="submit-btn" type="button">SUBMIT</button>
+      <button id="share-btn" type="button">SHARE</button>
+      <div class="share-links">
+        <span>Results page</span>
+        <input type="text" value=<%= admin_link %> id="admin-link">
+        <button id="admin-link-btn" type="button">Copy link</button>
+        <span>Voting page</span>
+        <input type="text" value=<%= submission_link %> id="sub-link">
+        <button id="sub-link-btn" type="button">Copy link</button>
+      </div>
     </main>
-
-
-
-
   </body>
 </html>
