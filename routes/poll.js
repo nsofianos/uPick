@@ -47,9 +47,9 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
         const poll_id = poll.id;
         console.log("poll_id:", poll_id);
         const queryString = `
-      INSERT INTO choices (poll_id, name)
-      VALUES ($1, $2);
-      `;
+        INSERT INTO choices (poll_id, name)
+        VALUES ($1, $2);
+        `;
 
         // Add each choice to choices table
         for (const name of choiceNames) {
@@ -100,17 +100,34 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
 
   // Add new choice_rankings for a choices
   router.post("/:id", (req, res) => {
-    const queryString = `
-    SELECT polls.*, choices.*, voters.*
-    FROM polls
-    JOIN choices ON poll_id = polls.id
-    JOIN voters ON choice_id = choices.id
-    `;
-    db.query(queryString)
+    const choiceRankingsObj = req.body;
+    const pollKey = req.params.id;
+    const promises = [];
+
+    // For each choice, grab its id
+    for (const key in choiceRankingsObj) {
+      const queryString = `
+      SELECT choices.id FROM choices
+      JOIN polls ON polls.id = poll_id
+      WHERE name = $1
+      AND submission_link LIKE $2;
+      `;
+      const promise = db.query(queryString, [key, `%${pollKey}`])
       .then(data => {
-        const poll = data.rows;
-        console.log(poll);
-        res.json({ poll });
+        const choiceId = data.rows[0].id;
+        const queryString = `
+        INSERT INTO choice_rankings (choice_id, ranking)
+        VALUES ($1, $2);
+        `;
+        // Insert each new choice_rankings row
+        db.query(queryString, [choiceId, choiceRankingsObj[key]]);
+      })
+      promises.push(promise);
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        res.send("Redirect");
       })
       .catch(err => {
         res
