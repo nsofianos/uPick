@@ -1,5 +1,5 @@
 body {
-  background-color: #EEE;
+  background-color: #f1faee;
   font-family: 'Oswald', 'sans-serif';
   height: 100vh;
 }
@@ -20,7 +20,7 @@ textarea {
   height: 2em;
   margin: 0.5em;
   resize: none;
-  background-color: #EEE;
+  background-color: #f1faee;
   border: none;
   border-bottom: 1px solid #1a1919;
   font-size: 30px;
@@ -29,4 +29,9 @@ textarea {
 textarea:focus {
   outline: none;
   border: 1px solid #ff6f69;
+}
+
+button {
+  cursor: pointer;
+  font-size: 20px;
 }
