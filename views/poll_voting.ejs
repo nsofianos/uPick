@@ -27,8 +27,10 @@
           <% for (const choice of choices) { %>
             <li><%= choice %></li>
           <% } %>
+          <li hidden><%= submission_link.slice(-6) %></li>
         </ul>
       </div>
+      <button id="submit-btn" type="button">SUBMIT</button>
       <button id="share-btn" type="button">SHARE</button>
       <div class="share-links">
         <span>Results page</span>
