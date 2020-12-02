@@ -21,7 +21,7 @@ module.exports = (db) => {
     const title = formData[0];
     const email = formData[1];
     const description = formData[2];
-    const choiceNames = formData.slice(3); // array of choice names
+    const choiceNames = formData.slice(3).filter(name => name !== ""); // array of choice names
     const pollKey = generateRandomString();
 
     const pollParams = [
@@ -45,18 +45,27 @@ module.exports = (db) => {
       })
       .then(poll => {
         const poll_id = poll.id;
-        console.log("poll_id:", poll_id);
-        const queryString = `
+        let queryString = `
         INSERT INTO choices (poll_id, name)
-        VALUES ($1, $2);
-        `;
+        VALUES `;
+        const queryVals = [];
+        const queryParams = [];
+        let i = 1;
 
-        // Add each choice to choices table
         for (const name of choiceNames) {
-          if (name !== "") {
-            db.query(queryString, [poll_id, name]);
-          }
+          // Build queryParams
+          queryParams.push(poll_id, name);
+
+          // Build queryString
+          queryVals.push(`($${i}, $${i + 1})`)
+          i += 2;
         }
+        queryString += queryVals.join(',') + ';';
+
+        console.log("queryString", queryString);
+        console.log("queryParams", queryParams);
+
+        db.query(queryString, queryParams);
       })
       .then(() => {
         res.redirect(`/polls/${pollKey}`);
