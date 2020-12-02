@@ -19,16 +19,20 @@
   </header>
 
   <body>
-    <h1>Random Polls!</h1>
+    <h1>Polls of the day</h1>
+    <% let counter = 1;%>
     <% for (const poll of polls) { %>
-    <h3><%= poll.question %></h3>
+      <div class="poll_question">
+        <h3><%= poll.question %></h3>
+        <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
+        <%counter += 1 %>
+      </div>
     <% for (const choice in poll.choicesNRanks) { %>
-    <h3><%= choice %></h3>
+    <div class="poll_choice">
+      <%= choice %>
+    </div>
     <% } %>
     <% } %>
-    <div id="piechart" style="width: 900px; height: 500px;"></div>
-    <div id="piechart2" style="width: 900px; height: 500px;"></div>
-    <div id="piechart3" style="width: 900px; height: 500px;"></div>
   </body>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -90,11 +94,11 @@
         pieHole: 0.6,
       };
 
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
       var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
       var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
 
-      chart.draw(data1, options1);
+      chart1.draw(data1, options1);
       chart2.draw(data2, options2);
       chart3.draw(data3, options3);
     }
