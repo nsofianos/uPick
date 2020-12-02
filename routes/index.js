@@ -15,15 +15,16 @@ module.exports = (db) => {
     FROM polls
     JOIN choices ON poll_id = polls.id
     JOIN choice_rankings ON choice_id = choices.id
-    ORDER BY polls.id
+    WHERE polls.id IN (SELECT id FROM polls
+      ORDER BY RANDOM() LIMIT 3)
     `;
     db.query(queryString)
       .then(data => {
         const index = data.rows;
-        console.log(index);
-        var currentPollId = -1; // or whatever you know will never exist
-        var currentPollObj = null;
-        var polls = [];
+        // console.log(index);
+        let currentPollId = -1; // or whatever you know will never exist
+        let currentPollObj = null;
+        let polls = [];
         for (const row of index) {
           if (currentPollId != row.id) {
             // insert the previously constructed poll object into the array

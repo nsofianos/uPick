@@ -3,24 +3,77 @@
   <head>
     <title>Home Page</title>
 
+    <!-- CSS styling -->
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
+    <!-- App js -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+
+    <!-- External js -->
   </head>
   <header>
     <%- include('partials/_header'); %>
   </header>
+
   <body>
-    <h1>Hello World!</h1>
+
+    <h3 id="alert-prompt-two"></h3>
+    <div id="alert-prompt">
+      <h3>Please Enter an email first!</h3>
+      <form method="POST" action="/login/:id">
+      <input class="create_poll_prompt" type="email" name="email" placeholder="Email"></input>
+      <button class="tmp" type="submit">Create new poll</button>
+    </form>
+    </div>
+    <h1>Random Polls!</h1>
     <% for (const poll of polls) { %>
     <h3><%= poll.question %></h3>
     <% for (const choice in poll.choicesNRanks) { %>
     <h3><%= choice %> <%= poll.choicesNRanks[choice] %></h3>
     <% } %>
     <% } %>
-  
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
   </body>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    let polls = <%- JSON.stringify(polls) %>;
+
+    let questions = [];
+    let ranks = [];
+    let choices = [];
+    for (const poll of polls) {
+       questions.push(poll.question);
+     for (const choice in poll.choicesNRanks) {
+       choices.push(choice);
+       ranks.push(poll.choicesNRanks[choice]);
+     }
+     }
+
+    function drawChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Temporary Header', 'Daily'],
+        [choices[0],        ranks[0]],
+        [choices[1],        ranks[1]],
+        [choices[2],        ranks[2]],
+        [choices[2],        15],
+      ]);
+
+      var options = {
+        title: questions[0],
+        pieHole: 0.6,
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+      chart.draw(data, options);
+    }
+  </script>
 </html>
