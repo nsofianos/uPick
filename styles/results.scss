@@ -1,0 +1,14 @@
+ul {
+  margin: 1em;
+  align-self: flex-start;
+  width: 80%;
+}
+
+li {
+  list-style-type: none;
+}
+
+div.choice-result {
+  display: flex;
+  justify-content: space-between;
+}

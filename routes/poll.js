@@ -120,18 +120,63 @@ module.exports = (db) => { //exporting a FUNCTION that RETURNS a router
   });
 
   // Render poll results page
-  router.get("/:id/r", (req, res) => {
-    res.render('poll_results');
-    const pollid = req.params.id;
+  router.get("/:id/result", (req, res) => {
+    const pollkey = req.params.id;
     const queryString = `
-    SELECT title, description
+    SELECT polls.title, polls.description, choices.name, sum(choice_rankings.ranking) as sum_rankings, count(choice_rankings.ranking) as total_rankings
     FROM polls
-    WHERE polls.id = $1;
+    JOIN choices ON polls.id = poll_id
+    JOIN choice_rankings ON choices.id = choice_id
+    WHERE polls.admin_link LIKE '%${pollkey}%'
+    GROUP BY polls.title, polls.description, choices.name;
     `;
-    db.query(queryString, pollid)
+    db.query(queryString)
     .then(data => {
-      console.log(data);
+      console.log(data.rows)
+
+      //results from the query
+      const queryRows = data.rows;
+
+      //store results into corresponding variables
+      const title = queryRows[0].title;
+      const description = queryRows[0].description;
+      const totalVotes = queryRows[0].total_rankings;
+      const totalChoices = queryRows.length;
+
+      //array of choice objects containing choice name, sum of rankings
+      const choices = [];
+      for (const row of queryRows) {
+        choices.push({ name: row.name, rankSum: row.sum_rankings });
+      }
+
+      //recursive function to get the sum of total choices
+      const sumTotalChoices = (n) => {
+        if (n < 1) {
+          return 0;
+        }
+        return n + sumTotalChoices(n - 1);
+      }
+
+      const percentages = [];
+      for (const choice of choices) {
+        const percent = Math.round(((choice.rankSum / (sumTotalChoices(totalChoices) * totalVotes))*100) * 10) / 10;
+        percentages.push(percent);
+      }
+
+      console.log('percentages', percentages);
+      console.log('sum', sumTotalChoices(5));
+      console.log(choices);
+      console.log('votes:', totalVotes, 'totalchoices', totalChoices);
+
+      const templateVars = { title, description, choices, percentages };
+      res.render('poll_results', templateVars);
     })
+    .catch(err => {
+      res
+          .status(500)
+          .json({ error: err.message });
+    });
+
   });
 
   // HELPER FUNCTIONS

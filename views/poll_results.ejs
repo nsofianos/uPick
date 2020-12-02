@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/create.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/results.css" type="text/css" />
+    <script src="/vendor/jquery-3.0.0.js"></script>
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
@@ -21,7 +21,22 @@
         <p class="light-comment">(figure it out dude)</p>
       </div>
 
+      <div id="poll-form">
+          <p class="bold-comment"><%= title %></p>
+          <p class="light-comment"><%= description %></p>
+          <ul>
+            <% for (choice of choices) { %>
+              <div class="choice-result">
+                <li><%= choice.name %></li>
+                <span><%= choice.ranking %></span>
+              </div>
+              <% } %>
+          </ul>
+        <button type="submit" id="poll-submit-button">Share</button>
+        </div>
+
     </main>
+
 
 
 
