@@ -59,5 +59,13 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  // (STRETCH) pseudo-login for email
+  router.get('/login/:id', (req, res) => {
+    // Set a cookie called "email"
+    req.session.email = req.params.id;
+    res.redirect('/polls');
+  })
+
   return router;
 };
