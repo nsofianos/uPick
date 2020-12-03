@@ -54,6 +54,15 @@ textarea {
   letter-spacing: 1px;
 }
 
+div.share-links {
+  font-size: 16px;
+  margin-bottom: 1em;
+}
+
+button.page-link {
+  font-size: 16px;
+}
+
 textarea:focus {
   outline: none;
   border: 1px solid #ff6f69;

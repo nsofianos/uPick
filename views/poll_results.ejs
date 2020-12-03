@@ -81,17 +81,17 @@
             </form>
             <!-- Share button -->
             <button type="submit" id="share-btn">Share</button>
-            <div class="share-links">
-              <span>Results page</span>
-              <input type="text" value="http://localhost:8080/polls/<%= pollkey %>/result" id="admin-link">
-              <button id="admin-link-btn" type="button">Copy link</button>
-              <span>Voting page</span>
-              <input type="text" value="http://localhost:8080/polls/<%= pollkey %>" id="sub-link">
-
-            <button id="sub-link-btn" type="button">Copy link</button>
           </div>
+              <div class="share-links">
+                <span>Results page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>/result" id="admin-link">
+                <button class="page-link" id="admin-link-btn" type="button">Copy</button>
+                <span>Voting page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>" id="sub-link">
+                <button class="page-link" id="sub-link-btn" type="button">Copy</button>
+              </div>
         </div>
-      </div>
+
 
       <div id="piechart"></div>
 
