@@ -25,9 +25,10 @@
       <span id="logo">uPick<span id='checkmark'>&#10004;</span></span>
       <!-- Nav Buttons -->
       <div class="nav-buttons">
-        <form method="" action=""></form>
         <button class="nav" id="nav-search" type="submit">Search</button>
-        <button class="nav" id="nav-create" type="submit">Create new poll</button>
+        <form method="GET" action="/polls/create">
+          <button class="nav" id="nav-create" type="submit">Create new poll</button>
+        </form>
       </div>
     </nav>
   </header>
