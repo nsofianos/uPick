@@ -20,9 +20,6 @@ const generateRandomString = () => {
   return randomString;
 };
 
-// Make POST request to /polls
-
-
 // Creates a poll
 const createPoll = function() {
 $("#poll-form").submit((event) => {
@@ -89,9 +86,6 @@ $("#poll-form").submit((event) => {
 };
 
 $(() => {
-  // Hides alert prompt
   $('#alert_prompt').hide();
-
-  // Pass form data from poll form to POST /polls route
   createPoll();
 });
