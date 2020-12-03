@@ -7,12 +7,12 @@
 
 const express = require('express');
 const router = express.Router();
-// const mailgun = require("mailgun-js");
-// // ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
-// const apiKey = process.env.mailgun_api;
-// const domain = process.env.mailgun_domain;
-// // ------------------------------------------------------------------
-// const mg = mailgun({ apiKey, domain });
+const mailgun = require("mailgun-js");
+// ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
+const apiKey = process.env.mailgun_api;
+const domain = process.env.mailgun_domain;
+// ------------------------------------------------------------------
+const mg = mailgun({ apiKey, domain });
 
 module.exports = (db) => {
 
@@ -35,7 +35,6 @@ module.exports = (db) => {
     SELECT polls.id, polls.submission_link, polls.title
     FROM polls
     JOIN choices ON poll_id = polls.id
-    JOIN choice_rankings ON choice_id = choices.id
     WHERE polls.email = $1
     GROUP BY polls.id;
     `;
@@ -134,26 +133,26 @@ module.exports = (db) => {
       .then(() => {
         console.log("DO WE MAKE IT HERE");
         // Send links to poll creator
-        // const emailLinks = {
-        //   from: 'uPick <leungcnie@gmail.com>',
-        //   to: email,
-        //   subject: 'You just made a poll!',
-        //   html: `
-        //   <h2 style="color: #457b9d">Now you're asking the big questions!</h2>
-        //   You just asked: <i><b>${title}</b></i>. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).
-        //   <br>
-        //   <br>
-        //   Cheers,
-        //   <br>
-        //   The uPick team
-        //   `
-        // };
-        // mg.messages().send(emailLinks, function(error, body) {
-        //   if (error) {
-        //     console.log("Mailgun error:", error);
-        //   }
-        //   console.log(body);
-        // });
+        const emailLinks = {
+          from: 'uPick <leungcnie@gmail.com>',
+          to: email,
+          subject: 'You just made a poll!',
+          html: `
+          <h2 style="color: #457b9d">Now you're asking the big questions!</h2>
+          You just asked: <i><b>${title}</b></i>. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).
+          <br>
+          <br>
+          Cheers,
+          <br>
+          The uPick team
+          `
+        };
+        mg.messages().send(emailLinks, function(error, body) {
+          if (error) {
+            console.log("Mailgun error:", error);
+          }
+          console.log(body);
+        });
 
         res.redirect(`/polls/${pollKey}`);
       })
@@ -234,25 +233,25 @@ module.exports = (db) => {
     Promise.all(promises)
       .then(() => {
         // Send email to poll creator when vote is received
-        // const emailVoteNotif = {
-        //   from: 'uPick <leungcnie@gmail.com>',
-        //   to: email,
-        //   subject: 'Someone just voted on your poll!',
-        //   html: `
-        //   <h2 style="color: #457b9d">Good news! Someone's chipped in.</h2>
-        //   Someone just voted on your poll, <i><b>"${pollTitle}"</b></i>. Why not take a peek at the results? (${adminLink}).<br>
-        //   <br>
-        //   <br>
-        //   Cheers,
-        //   <br>
-        //   The uPick✓ team`
-        // };
-        // mg.messages().send(emailVoteNotif, function(error, body) {
-        //   if (error) {
-        //     console.log("Mailgun error:", error);
-        //   }
-        //   console.log(body);
-        // });
+        const emailVoteNotif = {
+          from: 'uPick <leungcnie@gmail.com>',
+          to: email,
+          subject: 'Someone just voted on your poll!',
+          html: `
+          <h2 style="color: #457b9d">Good news! Someone's chipped in.</h2>
+          Someone just voted on your poll, <i><b>"${pollTitle}"</b></i>. Why not take a peek at the results? (${adminLink}).<br>
+          <br>
+          <br>
+          Cheers,
+          <br>
+          The uPick✓ team`
+        };
+        mg.messages().send(emailVoteNotif, function(error, body) {
+          if (error) {
+            console.log("Mailgun error:", error);
+          }
+          console.log(body);
+        });
 
         // Send to AJAX to redirect
         res.send("Redirect");
