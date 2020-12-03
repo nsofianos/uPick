@@ -9,8 +9,8 @@ const express = require('express');
 const router = express.Router();
 // const mailgun = require("mailgun-js");
 // // ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
-// const apiKey = '';
-// const domain = '';
+// const apiKey = process.env.mailgun_api;
+// const domain = process.env.mailgun_domain;
 // // ------------------------------------------------------------------
 // const mg = mailgun({ apiKey, domain });
 
