@@ -78,10 +78,18 @@ module.exports = (db) => {
         console.log("DO WE MAKE IT HERE");
         // Send links to poll creator
         // const emailLinks = {
-        //   from: 'uPick <kevinli296@outlook.com>',
+        //   from: 'uPick <leungcnie@gmail.com>',
         //   to: email,
         //   subject: 'You just made a poll!',
-        //   text: `You just asked: ${title}. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).`
+        //   html: `
+        //   <h2 style="color: #457b9d">Now you're asking the big questions!</h2>
+        //   You just asked: <i><b>${title}</b></i>. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).
+        //   <br>
+        //   <br>
+        //   Cheers,
+        //   <br>
+        //   The uPick team
+        //   `
         // };
         // mg.messages().send(emailLinks, function(error, body) {
         //   if (error) {
@@ -170,10 +178,17 @@ module.exports = (db) => {
       .then(() => {
         // Send email to poll creator when vote is received
         // const emailVoteNotif = {
-        //   from: 'uPick <kevinli296@outlook.com>',
+        //   from: 'uPick <leungcnie@gmail.com>',
         //   to: email,
         //   subject: 'Someone just voted on your poll!',
-        //   text: `Good news! Someone just voted on your poll, "${pollTitle}". Why not take a peek at the results? (${adminLink}).`
+        //   html: `
+        //   <h2 style="color: #457b9d">Good news! Someone's chipped in.</h2>
+        //   Someone just voted on your poll, <i><b>"${pollTitle}"</b></i>. Why not take a peek at the results? (${adminLink}).<br>
+        //   <br>
+        //   <br>
+        //   Cheers,
+        //   <br>
+        //   The uPick✓ team`
         // };
         // mg.messages().send(emailVoteNotif, function(error, body) {
         //   if (error) {
