@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Header Partial, includes app CSS/scripts -->
+  <%- include('partials/_header') %>
+  <!-- Poll Create CSS -->
+  <link rel="stylesheet" href="/styles/create.css" type="text/css" />
+  <!-- Poll Options Script -->
+  <script type="text/javascript" src="/scripts/poll_options.js"></script>
+</head>
+
+<body>
+  <% if (!loggedIn) { %>
+  <main>
+    <div id="error-cheeky-comment">
+      <p class="bold-comment">Sorry...who are you again?</p>
+      <p class="light-comment">(You have to log in first)</p>
+    </div>
+  </main>
+  <% } else if (loggedIn && !emailExists) { %>
+  <main>
+    <div id="error-cheeky-comment">
+      <p class="bold-comment">You haven't made any polls</p>
+      <p class="light-comment">(It's never too late to start)</p>
+    </div>
+  </main>
+  <% } else { %>
+  <main>
+    <h3>My polls</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Poll</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let poll of polls) { %>
+          <% console.log("poll.id", poll.id) %>
+        <tr>
+          <td><%= poll.title %></td>
+          <td>
+            <form method="POST" action="/polls/<%= poll.id %>/delete">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <% } %>
+</body>
+
+</html>
