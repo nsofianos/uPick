@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Header Partial, includes app CSS/scripts -->
+    <%- include('partials/_header') %>
+
+    <!-- Poll Results CSS -->
+    <link rel="stylesheet" href="/styles/results.css" type="text/css" />
+
+    <!-- Google charts API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Share button script -->
+    <script src="/scripts/share.js"></script>
+
+    <!-- Google chart script -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      let title = <%- JSON.stringify(title) %>;
+      let description = <%- JSON.stringify(description) %>;
+      let choices = <%- JSON.stringify(choices) %>;
+      const chartData = [['bla', 'bla']];
+      for (const choice of choices) {
+        chartData.push([`${choice.name}`, parseInt(choice.rankSum)])
+      }
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+          pieHole: 0.6,
+          width: 500,
+          height: 550,
+          chartArea: {'width': '100%', 'height': '80%'},
+          backgroundColor: '#D3ECEE',
+          colors: ['#e63946', '#457b9d', '#1d3557', '#a8dadc', '#f1faee'],
+          legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+  </head>
+
+
+
+
+  <body>
+    <main>
+
+      <% if (!inDatabase) { %>
+        <main>
+          <div class="cheeky-comment">
+            <p class="bold-comment">This poll doesn't exist</p>
+            <p class="light-comment">(Talk to me when you have the right link, bucko)</p>
+          </div>
+        </main>
+        <% } else { %>
+      <div id="poll-results">
+          <p class="bold-comment" id="results-title"><%= title %></p>
+          <p class="light-comment" id="results-description"><%= description %></p>
+          <ul>
+            <% for (choice of choices) { %>
+              <div class="choice-result">
+                <li class="results-list"><%= choice.name %></li>
+                <span class="percentage"><%= choice.percentage %>%</span>
+              </div>
+              <% } %>
+          </ul>
+
+          <div class="form-buttons">
+            <!-- Vote button -->
+            <form method="GET" action="/polls/<%= pollkey %>">
+              <button type="submit" id="vote-button">Vote</button>
+            </form>
+            <!-- Share button -->
+            <button type="submit" id="share-btn">Share</button>
+          </div>
+              <div class="share-links">
+                <span>Results page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>/result" id="admin-link">
+                <button class="page-link" id="admin-link-btn" type="button">Copy</button>
+                <span>Voting page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>" id="sub-link">
+                <button class="page-link" id="sub-link-btn" type="button">Copy</button>
+              </div>
+        </div>
+
+
+      <div id="piechart"></div>
+
+    </main>
+    <% } %>
+  </body>
+</html>

@@ -39,11 +39,13 @@ app.use(cookieSession({
 // Note: Feel free to replace the example routes below with your own
 const indexRoutes = require("./routes/index");
 const pollRoutes = require("./routes/poll");
+const pepeRoutes = require("./routes/pepe");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/", indexRoutes(db));
 app.use("/polls", pollRoutes(db));
+app.use("/youfoundme", pepeRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 
