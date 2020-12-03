@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
-    <title>Home Page</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Shrikhand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/create.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <!-- Header Partial, includes app CSS/scripts -->
+    <%- include('partials/_header') %>
+
+    <!-- Poll Results CSS -->
     <link rel="stylesheet" href="/styles/results.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <script src="/vendor/jquery-3.0.0.js"></script>
+
+    <!-- Google charts API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Share button script -->
     <script src="/scripts/share.js"></script>
 
+    <!-- Google chart script -->
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -21,22 +22,22 @@
       let title = <%- JSON.stringify(title) %>;
       let description = <%- JSON.stringify(description) %>;
       let choices = <%- JSON.stringify(choices) %>;
-      console.log(choices[0].name);
       const chartData = [['bla', 'bla']];
       for (const choice of choices) {
         chartData.push([`${choice.name}`, parseInt(choice.rankSum)])
       }
-      console.log('chartdata', chartData)
       function drawChart() {
 
         var data = google.visualization.arrayToDataTable(chartData);
 
         var options = {
           pieHole: 0.6,
-          chartArea: {left:20,top:70,width:'70%',height:'75%'},
-          backgroundColor: '#EEE',
-          colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-          legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' } }
+          width: 500,
+          height: 550,
+          chartArea: {'width': '100%', 'height': '80%'},
+          backgroundColor: '#D3ECEE',
+          colors: ['#e63946', '#457b9d', '#1d3557', '#a8dadc', '#f1faee'],
+          legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' }
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -47,9 +48,12 @@
 
   </head>
 
+
+
+
   <body>
-    <%- include('partials/_header') %>
     <main>
+
       <% if (!inDatabase) { %>
         <main>
           <div class="cheeky-comment">
@@ -58,35 +62,38 @@
           </div>
         </main>
         <% } else { %>
-      <div id="poll-form">
-          <p class="bold-comment"><%= title %></p>
-          <p class="light-comment"><%= description %></p>
+      <div id="poll-results">
+          <p class="bold-comment" id="results-title"><%= title %></p>
+          <p class="light-comment" id="results-description"><%= description %></p>
           <ul>
             <% for (choice of choices) { %>
               <div class="choice-result">
-                <li><%= choice.name %></li>
-                <span><%= choice.percentage %>%</span>
+                <li class="results-list"><%= choice.name %></li>
+                <span class="percentage"><%= choice.percentage %>%</span>
               </div>
               <% } %>
           </ul>
-        <div class="form-buttons">
-          <button type="submit" id="share-btn">Share</button>
-          <div class="share-links">
-            <span>Results page</span>
-            <input type="text" value="http://localhost:8080/polls/<%= pollkey %>/result" id="admin-link">
-            <button id="admin-link-btn" type="button">Copy link</button>
-            <span>Voting page</span>
-            <input type="text" value="http://localhost:8080/polls/<%= pollkey %>" id="sub-link">
-            <button id="sub-link-btn" type="button">Copy link</button>
+
+          <div class="form-buttons">
+            <!-- Vote button -->
+            <form method="GET" action="/polls/<%= pollkey %>">
+              <button type="submit" id="vote-button">Vote</button>
+            </form>
+            <!-- Share button -->
+            <button type="submit" id="share-btn">Share</button>
           </div>
-          <form method="GET" action="/polls/<%= pollkey %>">
-            <button type="submit" id="vote-button">Vote</button>
-          </form>
+              <div class="share-links">
+                <span>Results page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>/result" id="admin-link">
+                <button class="page-link" id="admin-link-btn" type="button">Copy</button>
+                <span>Voting page</span>
+                <input type="text" value="http://localhost:8080/polls/<%= pollkey %>" id="sub-link">
+                <button class="page-link" id="sub-link-btn" type="button">Copy</button>
+              </div>
         </div>
-      </div>
 
-      <div id="piechart" style="width: 800px; height: 500px;"></div>
 
+      <div id="piechart"></div>
 
     </main>
     <% } %>

@@ -1,14 +1,35 @@
-<head>
-  <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Shrikhand&display=swap" type="text/css" />
-</head>
+<!DOCTYPE html>
+<html lang="en">
 
-<header>
-  <nav>
-    <span id="logo">uPick</span>
-    <div>
-      <input name="text" placeholder="Search"></input>
-      <form method="GET" action="/polls/create"><button class="create_poll" type="submit">Create new poll</button></form>
-    </div>
-  </nav>
-</header>
+  <head>
+
+    <title>uPick</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Pacifico&family=Shrikhand&family=Fanwood+Text:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Normalize/Border-box CSS -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <!-- App/Nav CSS -->
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <!-- App scripts -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+
+  </head>
+
+  <header>
+    <nav>
+      <!-- Logo -->
+      <span id="logo">uPick<span id='checkmark'>&#10004;</span></span>
+      <!-- Nav Buttons -->
+      <div class="nav-buttons">
+        <form method="" action=""></form>
+        <button class="nav" id="nav-search" type="submit">Search</button>
+        <button class="nav" id="nav-create" type="submit">Create new poll</button>
+      </div>
+    </nav>
+  </header>
+
+</html>

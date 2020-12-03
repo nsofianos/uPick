@@ -1,13 +1,25 @@
 nav {
   display: flex;
     justify-content: space-between;
-    background-color: #ff6f69;
+    background-color: #457b9d;
     padding: 1em;
+    height: 120px;
+    align-items: center;
   }
 
-  #logo {
-    font-size: 40px;
-    font-family: 'Shrikhand';
-    margin-left: 0.5em;
-    color: antiquewhite;
-  }
+#logo {
+  font-size: 45px;
+  font-family: 'Pacifico';
+  margin-left: 0.5em;
+  color: #ffffff;
+}
+
+#checkmark {
+  content: "\2714";
+  font-size: 55px;
+}
+
+#nav-create {
+  background-color: #e63946;
+  color: #ffffff;
+}
