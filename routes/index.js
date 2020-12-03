@@ -65,6 +65,7 @@ module.exports = (db) => {
     // Set a cookie called "email"
     req.session.email = req.params.id;
     res.redirect('/polls');
+    console.log("hows da login");
   })
 
   return router;
