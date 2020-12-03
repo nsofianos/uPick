@@ -105,7 +105,7 @@ module.exports = (db) => {
         res.render('poll_voting', templateVars);
       })
       .catch(err => {
-        res.status(500)
+        res.status(404);
         res.render('poll_voting', {inDatabase: false});
       });
   });
@@ -196,11 +196,11 @@ module.exports = (db) => {
       console.log(choices);
       console.log('votes:', totalVotes, 'totalchoices', totalChoices);
 
-      const templateVars = { title, description, choices, pollKey, inDatabase: true };
+      const templateVars = { title, description, choices, pollkey, inDatabase: true };
       res.render('poll_results', templateVars);
     })
     .catch(err => {
-      res.status(500)
+      res.status(404);
       res.render('poll_voting', {inDatabase: false});
     });
 
