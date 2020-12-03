@@ -21,6 +21,11 @@ module.exports = (db) => {
     res.render('poll_create');
   });
 
+  // Render a user's polls
+  router.get("/", (req, res) => {
+    const email = req.session.email;
+  })
+
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
     const formData = req.body.text;
