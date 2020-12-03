@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/_header') %>
-    <link rel="stylesheet" href="/styles/voting.css" type="text/css" />
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <head>
+    <!-- Header Partial, includes app CSS/scripts -->
+    <%- include('partials/_header') %>
+    <!-- Voting page CSS -->
+    <link rel="stylesheet" href="/styles/voting.css" type="text/css" />
+    <!-- Jquery dependencies for sortable -->
     <script src="https://code.jquery.com/jquery-3.x-git.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <!-- Voting/share links scripts -->
     <script src="/scripts/poll_voting.js"></script>
     <script src="/scripts/share.js"></script>
+
   </head>
 
+
+
+
   <body>
+    <!-- Throw error message if poll doesnt exist/hasn't been voted on yet -->
     <% if (!inDatabase) { %>
       <main>
         <div id="error-cheeky-comment">
-          <p class="bold-comment">This poll doesn't exist</p>
-          <p class="light-comment">(Talk to me when you have the right link, bucko)</p>
+          <p class="bold-comment">It doesn't exist or something. I don't know.</p>
+          <p class="light-comment">(Just come back later, okay?)</p>
         </div>
       </main>
       <% } else { %>
@@ -39,12 +46,13 @@
       <div class="share-links">
         <span>Results page</span>
         <input type="text" value=<%= admin_link %> id="admin-link">
-        <button id="admin-link-btn" type="button">Copy link</button>
+        <button class="page-link" id="admin-link-btn" type="button">Copy</button>
         <span>Voting page</span>
         <input type="text" value=<%= submission_link %> id="sub-link">
-        <button id="sub-link-btn" type="button">Copy link</button>
+        <button class="page-link" id="sub-link-btn" type="button">Copy</button>
       </div>
     </main>
     <% } %>
   </body>
+
 </html>
