@@ -8,8 +8,10 @@
 const express = require('express');
 const router = express.Router();
 const mailgun = require("mailgun-js");
+// ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
 const apiKey = '227f444044a3246e9eae23357e372a9a-95f6ca46-8b6ac466';
 const domain = 'sandbox5e38857c2490413c8b6807ea374ecf61.mailgun.org';
+// ------------------------------------------------------------------
 const mg = mailgun({ apiKey, domain });
 
 module.exports = (db) => {
@@ -79,7 +81,7 @@ module.exports = (db) => {
           from: 'uPick <nexustk_fan@hotmail.com>',
           to: email,
           subject: 'You just made a poll!',
-          text: `Thanks for using uPick! You just asked: ${title}. Vote now! (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).`
+          text: `You just asked: ${title}. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).`
         };
         mg.messages().send(emailLinks, function(error, body) {
           if (error) {
