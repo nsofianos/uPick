@@ -39,7 +39,7 @@
         <% for(let poll of polls) { %>
           <% console.log("poll.id", poll.id) %>
         <tr>
-          <td><%= poll.title %></td>
+          <td><a href="<%= poll.submission_link %>"><%= poll.title %></a></td>
           <td>
             <form method="POST" action="/polls/<%= poll.id %>/delete">
               <button type="submit">Delete</button>
