@@ -16,6 +16,7 @@ module.exports = (db) => {
     LEFT JOIN choices ON poll_id = polls.id
     LEFT JOIN choice_rankings ON choice_id = choices.id
     GROUP BY polls.id, polls.title, choices.name
+    HAVING COUNT(choice_rankings.id) > 0
     ORDER BY polls.id, COUNT(choice_rankings.ranking) DESC;
     `;
 
