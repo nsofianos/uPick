@@ -49,16 +49,25 @@ const createPoll = function () {
     }
 
     for (let i = 0; i < arr.length; i++) {
-      console.log('Index of: ', arr.indexOf(arr[i]));
-      console.log('Last index of: ', arr.lastIndexOf(arr[i]));
+      // console.log('Index of: ', arr.indexOf(arr[i]));
+      // console.log('Last index of: ', arr.lastIndexOf(arr[i]));
       if (arr.indexOf(arr[i]) !== arr.lastIndexOf(arr[i])) {
         result = true;
         break;
       }
     }
+
     if (result) {
       event.preventDefault();
       $('#alert_prompt').text('You have a duplicate choice!').css({ "color": "red" });
+      $('#alert_prompt').slideDown('fast');
+    } else if ($('#poll-title').val() === '') {
+      event.preventDefault();
+      $('#alert_prompt').text('You are missing a poll title!').css({ "color": "red" });
+      $('#alert_prompt').slideDown('fast');
+    } else if ($('#poll-email').val() === '') {
+      event.preventDefault();
+      $('#alert_prompt').text('You have not entered an email!').css({ "color": "red" });
       $('#alert_prompt').slideDown('fast');
     } else {
       if (arr.length >= 2) {
