@@ -45,9 +45,11 @@
     for (const poll of polls) {
       let tableData = [['Choices', 'Ranks']];
       let tableOptions = {
-        backgroundColor: '#EEE',
+        backgroundColor: '#D3ECEE',
         title: poll.questions,
         pieHole: 0.6,
+        colors: ['#E63946', '#457B9D', '#1D3557', '#A8DADC', '#F1FAEE'],
+        legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' },
       };
      for (const choice in poll.choicesNRanks) {
        tableData.push([choice, poll.choicesNRanks[choice]])
