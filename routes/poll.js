@@ -7,6 +7,10 @@
 
 const express = require('express');
 const router = express.Router();
+const mailgun = require("mailgun-js");
+const apiKey = '227f444044a3246e9eae23357e372a9a-95f6ca46-8b6ac466';
+const domain = 'sandbox5e38857c2490413c8b6807ea374ecf61.mailgun.org';
+const mg = mailgun({apiKey, domain});
 
 module.exports = (db) => {
 
@@ -66,8 +70,25 @@ module.exports = (db) => {
         console.log("queryParams", queryParams);
 
         db.query(queryString, queryParams);
+        console.log("SECOND DOT THEN!!")
       })
       .then(() => {
+        console.log("DO WE MAKE IT HERE");
+        // Send links to poll creator
+        const emailLinks = {
+          from: 'uPick <nexustk_fan@hotmail.com>',
+          to: email,
+          subject: 'You just made a poll!',
+          text: `Thanks for using uPick! You just made a poll called: ${title}.
+          Vote now! (${pollParams[4]}) or take a peek at the results (${pollParams[3]})`
+        };
+        mg.messages().send(emailLinks, function (error, body) {
+          if (error) {
+            console.log("Mailgun error:", error);
+          }
+          console.log(body);
+        });
+
         res.redirect(`/polls/${pollKey}`);
       })
       .catch(err => {
