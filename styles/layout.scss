@@ -1,7 +1,8 @@
 body {
-  background-color: #f1faee;
+  background-color: #D3ECEE;
   font-family: 'Oswald', 'sans-serif';
   height: 100vh;
+  color: #1d3557;
 }
 
 body h1 {
@@ -15,15 +16,38 @@ main {
   justify-content: space-around;
 }
 
+div.cheeky-comment {
+  width: 30%;
+  margin: none;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1.5em;
+  position: relative;
+  top: 130px;
+}
+
+body p.bold-comment {
+  margin: 0;
+  font-weight: 400;
+  font-family: 'shrikhand';
+}
+
+body p.light-comment {
+  color: #1a1919;
+  margin-top: 0px;
+  font-size: 24px;
+}
+
 textarea {
   width: 80%;
   height: 2em;
   margin: 0.5em;
   resize: none;
-  background-color: #f1faee;
+  background-color: #ffffff;
   border: none;
   border-bottom: 1px solid #1a1919;
   font-size: 30px;
+  letter-spacing: 1px;
 }
 
 textarea:focus {
@@ -32,6 +56,17 @@ textarea:focus {
 }
 
 button {
+  font-family: 'shrikhand';
   cursor: pointer;
   font-size: 20px;
+  border: none;
+  border-radius: 30px;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#error-cheeky-comment {
+  position: absolute;
+  top: 300px;
 }

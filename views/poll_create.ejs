@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
-    <title>Home Page</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Shrikhand&family=Quattrocento+Sans:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <!-- Header Partial, includes app CSS/scripts -->
+    <%- include('partials/_header') %>
+    <!-- Poll Create CSS -->
     <link rel="stylesheet" href="/styles/create.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <!-- Poll Options Script -->
     <script type="text/javascript" src="/scripts/poll_options.js"></script>
+
   </head>
 
+
+
+
   <body>
-    <%- include('partials/_header') %>
     <main>
+
       <div class="cheeky-comment">
         <p class="bold-comment">I don't know, you pick.</p>
         <p class="light-comment">(No really... I'm easy)</p>
@@ -36,10 +34,8 @@
         <textarea name="text" id="poll-choice5" placeholder="Enter poll choice"></textarea>
         <button type="submit" id="poll-submit-button">Submit</button>
       </form>
+
     </main>
-
-
-
-
   </body>
+
 </html>
