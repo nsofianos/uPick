@@ -7,12 +7,18 @@
 
 const express = require('express');
 const router = express.Router();
+const mailgun = require("mailgun-js");
+// ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
+const apiKey = '';
+const domain = '';
+// ------------------------------------------------------------------
+const mg = mailgun({ apiKey, domain });
 
 module.exports = (db) => {
 
   // Render poll creation page
   router.get("/create", (req, res) => {
-      res.render('poll_create');
+    res.render('poll_create');
   });
 
   // Add a new poll to database + redirect to voting page
@@ -66,8 +72,24 @@ module.exports = (db) => {
         console.log("queryParams", queryParams);
 
         db.query(queryString, queryParams);
+        console.log("SECOND DOT THEN!!")
       })
       .then(() => {
+        console.log("DO WE MAKE IT HERE");
+        // Send links to poll creator
+        const emailLinks = {
+          from: 'uPick <nexustk_fan@hotmail.com>',
+          to: email,
+          subject: 'You just made a poll!',
+          text: `You just asked: ${title}. Share and vote (${pollParams[4]}) or take a peek at the results (${pollParams[3]}).`
+        };
+        mg.messages().send(emailLinks, function(error, body) {
+          if (error) {
+            console.log("Mailgun error:", error);
+          }
+          console.log(body);
+        });
+
         res.redirect(`/polls/${pollKey}`);
       })
       .catch(err => {
@@ -106,7 +128,7 @@ module.exports = (db) => {
       })
       .catch(err => {
         res.status(404);
-        res.render('poll_voting', {inDatabase: false});
+        res.render('poll_voting', { inDatabase: false });
       });
   });
 
@@ -114,32 +136,54 @@ module.exports = (db) => {
   router.post("/:id", (req, res) => {
     const choiceRankingsObj = req.body;
     const pollKey = req.params.id;
+    let email = "";
+    let pollTitle = "";
+    let adminLink = "";
     const promises = [];
 
     // For each choice, grab its id
     for (const key in choiceRankingsObj) {
       const queryString = `
-      SELECT choices.id FROM choices
+      SELECT choices.id, polls.email, polls.title, polls.admin_link FROM choices
       JOIN polls ON polls.id = poll_id
       WHERE name = $1
       AND submission_link LIKE $2;
       `;
       const promise = db.query(queryString, [key, `%${pollKey}`])
-      .then(data => {
-        const choiceId = data.rows[0].id;
-        const queryString = `
+        .then(data => {
+          const choiceId = data.rows[0].id;
+          email = data.rows[0].email;
+          pollTitle = data.rows[0].title;
+          adminLink = data.rows[0].admin_link;
+          const queryString = `
         INSERT INTO choice_rankings (choice_id, ranking)
         VALUES ($1, $2);
         `;
-        // Insert each new choice_rankings row
-        db.query(queryString, [choiceId, choiceRankingsObj[key]]);
-      })
+          // Insert each new choice_rankings row
+          db.query(queryString, [choiceId, choiceRankingsObj[key]]);
+        })
       promises.push(promise);
     }
 
+    console.log(email, pollTitle, adminLink);
     Promise.all(promises)
       .then(() => {
-        res.send("Redirect"); // Send to AJAX to redirect
+        // Send email to poll creator when vote is received
+        const emailVoteNotif = {
+          from: 'uPick <nexustk_fan@hotmail.com>',
+          to: email,
+          subject: 'Someone just voted on your poll!',
+          text: `Good news! Someone just voted on your poll, "${pollTitle}". Why not take a peek at the results? (${adminLink}).`
+        };
+        mg.messages().send(emailVoteNotif, function(error, body) {
+          if (error) {
+            console.log("Mailgun error:", error);
+          }
+          console.log(body);
+        });
+
+        // Send to AJAX to redirect
+        res.send("Redirect");
       })
       .catch(err => {
         res
@@ -160,49 +204,49 @@ module.exports = (db) => {
     GROUP BY polls.title, polls.description, choices.name;
     `;
     db.query(queryString)
-    .then(data => {
-      console.log(data.rows)
+      .then(data => {
+        console.log(data.rows)
 
-      //results from the query
-      const queryRows = data.rows;
+        //results from the query
+        const queryRows = data.rows;
 
-      //store results into corresponding variables
-      const title = queryRows[0].title;
-      const description = queryRows[0].description;
-      const totalVotes = queryRows[0].total_rankings;
-      const totalChoices = queryRows.length;
+        //store results into corresponding variables
+        const title = queryRows[0].title;
+        const description = queryRows[0].description;
+        const totalVotes = queryRows[0].total_rankings;
+        const totalChoices = queryRows.length;
 
-      //array of choice objects containing choice name, sum of rankings
-      const choices = [];
-      for (const row of queryRows) {
-        choices.push({ name: row.name, rankSum: row.sum_rankings });
-      }
-
-      //recursive function to get the sum of total choices
-      const sumTotalChoices = (n) => {
-        if (n < 1) {
-          return 0;
+        //array of choice objects containing choice name, sum of rankings
+        const choices = [];
+        for (const row of queryRows) {
+          choices.push({ name: row.name, rankSum: row.sum_rankings });
         }
-        return n + sumTotalChoices(n - 1);
-      }
 
-      //calculate percentage of votes for each choice using borda count method
-      for (const choice of choices) {
-        choice.percentage = Math.round(((choice.rankSum / (sumTotalChoices(totalChoices) * totalVotes))*100) * 10) / 10;
-      }
+        //recursive function to get the sum of total choices
+        const sumTotalChoices = (n) => {
+          if (n < 1) {
+            return 0;
+          }
+          return n + sumTotalChoices(n - 1);
+        }
+
+        //calculate percentage of votes for each choice using borda count method
+        for (const choice of choices) {
+          choice.percentage = Math.round(((choice.rankSum / (sumTotalChoices(totalChoices) * totalVotes)) * 100) * 10) / 10;
+        }
 
 
-      console.log('sum', sumTotalChoices(5));
-      console.log(choices);
-      console.log('votes:', totalVotes, 'totalchoices', totalChoices);
+        console.log('sum', sumTotalChoices(5));
+        console.log(choices);
+        console.log('votes:', totalVotes, 'totalchoices', totalChoices);
 
-      const templateVars = { title, description, choices, pollkey, inDatabase: true };
-      res.render('poll_results', templateVars);
-    })
-    .catch(err => {
-      res.status(404);
-      res.render('poll_voting', {inDatabase: false});
-    });
+        const templateVars = { title, description, choices, pollkey, inDatabase: true };
+        res.render('poll_results', templateVars);
+      })
+      .catch(err => {
+        res.status(404);
+        res.render('poll_voting', { inDatabase: false });
+      });
 
   });
 
