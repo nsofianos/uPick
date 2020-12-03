@@ -24,6 +24,58 @@ module.exports = (db) => {
   // Render a user's polls
   router.get("/", (req, res) => {
     const email = req.session.email;
+
+    // If user hasn't logged in, redirect to error page
+    if (!email) {
+      res.render("poll_browsing", {loggedIn: false, emailExists: null});
+    }
+
+    // Get poll's id, submission_link, and title
+    const queryString = `
+    SELECT polls.id, polls.submission_link, polls.title
+    FROM polls
+    JOIN choices ON poll_id = polls.id
+    JOIN choice_rankings ON choice_id = choices.id
+    WHERE polls.email = $1
+    GROUP BY polls.id;
+    `;
+    db.query(queryString, [email])
+      .then(data => {
+        const polls = data.rows;
+        // If query returns nothing (email doesn't exist), redirect to error page
+        if (polls.length === 0) {
+          return res.render("poll_browsing", {loggedIn: true, emailExists: false});
+        }
+
+        // Otherwise render a page of user's polls
+        console.log("what r the data.rows", data.rows)
+        const templateVars = {polls, loggedIn : true, emailExists: true};
+        res.render("poll_browsing", templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  })
+
+  router.post('/:id/delete', (req, res) => {
+    const pollId = req.params.id;
+    // Use pollId to delete poll from polls table
+    queryString = `
+    DELETE FROM polls
+    WHERE polls.id = $1;
+    `;
+    db.query(queryString, [pollId])
+      .then(() => {
+        // Redirect to user's polls page
+        res.redirect('/polls');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   })
 
   // Add a new poll to database + redirect to voting page
