@@ -3,3 +3,23 @@ li {
   border: 1px solid black;
   cursor: pointer;
 }
+
+#poll-title {
+  font-size: 50px;
+  margin: 0.5em;
+}
+
+#poll-description {
+  margin: 0;
+  font-size: 30px;
+}
+
+#vote-item {
+  margin: 0.2em;
+  padding: 0.2em;
+  text-align: center;
+}
+
+#poll-voting {
+  width:50%;
+}

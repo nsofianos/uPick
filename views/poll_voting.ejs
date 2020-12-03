@@ -27,31 +27,37 @@
           <p class="light-comment">(Just come back later, okay?)</p>
         </div>
       </main>
+
       <% } else { %>
     <main>
-      <div>
-        <p class="bold-comment"><%= title %></p>
+
+      <div id="poll-voting">
+        <p id="poll-title" class="bold-comment"><%= title %></p>
         <% if (description) { %>
-        <p><%= description %></p>
+        <p id="poll-description"><%= description %></p>
         <% } %>
         <ul id="sortable">
           <% for (const choice of choices) { %>
-            <li><%= choice %></li>
+            <li id="vote-item"><%= choice %></li>
           <% } %>
           <li hidden><%= submission_link.slice(-6) %></li>
         </ul>
+        <div class="form-buttons">
+          <button id="submit-btn" type="button">SUBMIT</button>
+          <button class="share-btn" id="share-btn" type="button">SHARE</button>
+          <div class="share-links">
+            <span>Results page</span>
+            <input type="text" value=<%= admin_link %> id="admin-link">
+            <button class="page-link" id="admin-link-btn" type="button">Copy</button>
+            <span>Voting page</span>
+            <input type="text" value=<%= submission_link %> id="sub-link">
+            <button class="page-link" id="sub-link-btn" type="button">Copy</button>
+          </div>
+        </div>
       </div>
-      <button id="submit-btn" type="button">SUBMIT</button>
-      <button id="share-btn" type="button">SHARE</button>
-      <div class="share-links">
-        <span>Results page</span>
-        <input type="text" value=<%= admin_link %> id="admin-link">
-        <button class="page-link" id="admin-link-btn" type="button">Copy</button>
-        <span>Voting page</span>
-        <input type="text" value=<%= submission_link %> id="sub-link">
-        <button class="page-link" id="sub-link-btn" type="button">Copy</button>
-      </div>
+
     </main>
+
     <% } %>
   </body>
 
