@@ -1,7 +1,3 @@
-body {
-  background-color: #ffeead;
-}
-
 ul {
   margin: 1em;
   align-self: flex-start;
@@ -15,14 +11,38 @@ li {
 div.choice-result {
   display: flex;
   justify-content: space-between;
+  margin-top: 0.5em;
 }
 
 div.form-buttons {
   display: flex;
   align-self: flex-end;
+  margin-bottom: 1em;
   margin-right: 1em;
+  align-items: flex-end;
+
 }
 
-#share-button {
-  margin-right: 0.5em;
+#share-btn {
+  margin-left: 0.5em;
+  background-color: #1d3557;
+  color: #ffffff;
 }
+
+#vote-button {
+  height:100%;
+}
+
+#poll-results {
+  width: 50%;
+}
+
+span.percentage {
+  margin-left: 1em;
+}
+
+#results-title {
+  margin-top: 0.5em;
+  font-size: 50px;
+}
+
