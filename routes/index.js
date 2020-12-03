@@ -28,8 +28,11 @@ module.exports = (db) => {
         let currentPollId = -1; // or whatever you know will never exist
         let currentPollObj = null;
         let polls = [];
+        let counter = 1;
         for (const row of index) {
           if (currentPollId != row.id) {
+            if (counter > 3) break;
+            counter += 1;
             // insert the previously constructed poll object into the array
             if (currentPollObj !== null) {
               polls.push(currentPollObj);
@@ -43,13 +46,11 @@ module.exports = (db) => {
             currentPollObj.choicesNRanks = {};
           }
           currentPollObj.choicesNRanks[row.choices] = row.rank === null ? 0 : Number(row.rank);
-          console.log('typeof: ', typeof row.rank);
         }
         // insert the last poll object, since that won't be done in the loop
         // note: what if you have no polls in the database?
         polls.push(currentPollObj);
         const templateVars = { polls };
-        console.log(polls);
         res.render('index', templateVars);
       })
       .catch(err => {
