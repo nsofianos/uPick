@@ -42,7 +42,10 @@ span.percentage {
 }
 
 #results-title {
-  margin-top: 0.5em;
   font-size: 50px;
+}
+
+#results-description, #results-title {
+  margin: 0.5em;
 }
 
