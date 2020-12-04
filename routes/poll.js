@@ -58,6 +58,59 @@ module.exports = (db) => {
       });
   })
 
+    // Render searched polls
+    router.get("/search", (req, res) => {
+      const search = req.query.search;
+      console.log(search);
+  
+      const queryString = `
+      SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
+      FROM polls
+      LEFT JOIN choices ON poll_id = polls.id
+      LEFT JOIN choice_rankings ON choice_id = choices.id
+      WHERE LOWER(polls.title) LIKE LOWER('%${search}%')
+      GROUP BY polls.id, polls.title, choices.name
+      ORDER BY polls.id, COUNT(choice_rankings.ranking) DESC;
+      `;
+      db.query(queryString)
+        .then(data => {
+          const index = data.rows;
+          // console.log(index);
+          let currentPollId = -1; // or whatever you know will never exist
+          let currentPollObj = null;
+          let polls = [];
+          for (const row of index) {
+            if (currentPollId != row.id) {
+              // insert the previously constructed poll object into the array
+              if (currentPollObj !== null) {
+                polls.push(currentPollObj);
+              }
+  
+              // we've found a new unique poll id, create a new object to represent this new poll
+              currentPollId = row.id;
+  
+              currentPollObj = {};
+              currentPollObj.question = row.polls;
+              currentPollObj.choicesNRanks = {};
+            }
+            currentPollObj.choicesNRanks[row.choices] = row.rank === null ? 0 : Number(row.rank);
+          }
+          // insert the last poll object, since that won't be done in the loop
+          // note: what if you have no polls in the database?
+          if (currentPollObj !== null) {
+          polls.push(currentPollObj);
+          }
+          const templateVars = { polls };
+          console.log(polls);
+          res.render("poll_search", templateVars);
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    })
+
   router.post('/:id/delete', (req, res) => {
     const pollId = req.params.id;
     // Use pollId to delete poll from polls table
