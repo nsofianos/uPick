@@ -47,6 +47,10 @@ div.form-buttons {
   align-items: flex-end;
 }
 
+div.nav-buttons {
+  display:flex;
+}
+
 ul {
   padding: 0;
   margin: 1em;
@@ -125,4 +129,5 @@ button {
 #nav-search {
   background-color: #f1faee;
   color: #1d3557;
+  margin-right: 0.3em;
 }
