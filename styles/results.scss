@@ -14,7 +14,7 @@ div.choice-result {
 }
 
 #poll-results {
-  width: 50%;
+  width: 50vw;
 }
 
 span.percentage {
@@ -23,6 +23,7 @@ span.percentage {
 
 #results-title {
   font-size: 50px;
+  text-align: center;
 }
 
 #results-description, #results-title {

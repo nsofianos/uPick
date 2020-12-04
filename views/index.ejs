@@ -24,6 +24,9 @@
           backgroundColor: '#D3ECEE',
           title: poll.questions,
           pieHole: 0.6,
+          width: 500,
+          height: 550,
+          chartArea: {'left': 50, 'width': '100%', 'height': '80%'},
           colors: ['#E63946', '#457B9D', '#1D3557', '#A8DADC', '#F1FAEE'],
           legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' },
         };
@@ -43,19 +46,15 @@
   <body>
     <main class="home-page">
 
-      <div class="cheeky-comment">
+      <div class="cheeky-comment" id="polls-of-day">
         <p class="bold-comment">Polls of the day</p>
-        <p class="light-comment">(Maybe yours will be featured one day)</p>
+        <p class="light-comment">(Maybe yours will be featured?)</p>
       </div>
-      
-      <div>
+
+      <div class="poll-results">
       <% let counter = 1;%>
       <% for (const poll of polls) { %>
         <div class="poll_question">
-          <h3><%= poll.question %></h3>
-          <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
-          <%counter += 1 %>
-        </div>
         <div class="poll-results" id="poll-results">
           <p class="bold-comment" id="results-title"><%= poll.question %></p>
           <p class="light-comment" id="results-description"><%= poll.description %></p>
@@ -66,8 +65,11 @@
                 <li class="results-list"><%= key %></li>
                 <span class="percentage"><%= choice.percentage %>%</span>
               </div>
-              <% } %>
-          </ul>
+                <% } %>
+            </ul>
+          </div>
+          <div id="piechart<%=`${counter}`%>"></div>
+          <%counter += 1 %>
         </div>
       <% } %>
     </div>

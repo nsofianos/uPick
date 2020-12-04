@@ -1,4 +1,23 @@
 main.home-page {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.poll_question {
+  display:flex;
   flex-direction: row;
+  margin-top: 3em;
+  justify-content: space-around;
+}
+
+
+#polls-of-day {
+  top: 30px;
+  border-bottom: solid;
+  padding: 0;
+}
+
+#poll-results-home {
+  width: 50vw;
 }
