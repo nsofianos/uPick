@@ -19,6 +19,15 @@
   </header>
 
   <body>
+
+    <% if (polls.length === 0) {%>
+      <main>
+        <div class="cheeky-comment">
+          <p class="bold-comment">This poll doesn't exist</p>
+          <p class="light-comment">(Talk to me when you have the right search, bucko)</p>
+        </div>
+      </main>
+      <% } else {%>
     <h1>Polls of the day</h1>
     <% let counter = 1;%>
     <% for (const poll of polls) { %>
@@ -27,6 +36,7 @@
         <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
         <%counter += 1 %>
       </div>
+    <% } %>
     <% } %>
   </body>
 

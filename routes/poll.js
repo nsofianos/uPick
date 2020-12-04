@@ -60,21 +60,21 @@ module.exports = (db) => {
 
     // Render searched polls
     router.get("/search", (req, res) => {
-      const queryParams = [req.body];
+      const search = req.query.search;
+      console.log(search);
   
       const queryString = `
       SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
       FROM polls
       LEFT JOIN choices ON poll_id = polls.id
       LEFT JOIN choice_rankings ON choice_id = choices.id
-      WHERE polls.title LIKE '%$1%'
+      WHERE LOWER(polls.title) LIKE LOWER('%${search}%')
       GROUP BY polls.id, polls.title, choices.name
       ORDER BY polls.id, COUNT(choice_rankings.ranking) DESC;
       `;
-      db.query(queryString, queryParams)
+      db.query(queryString)
         .then(data => {
           const index = data.rows;
-          console.log(index);
           // console.log(index);
           let currentPollId = -1; // or whatever you know will never exist
           let currentPollObj = null;
@@ -97,8 +97,11 @@ module.exports = (db) => {
           }
           // insert the last poll object, since that won't be done in the loop
           // note: what if you have no polls in the database?
+          if (currentPollObj !== null) {
           polls.push(currentPollObj);
+          }
           const templateVars = { polls };
+          console.log(polls);
           res.render("poll_search", templateVars);
         })
         .catch(err => {
