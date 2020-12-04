@@ -19,16 +19,22 @@
         </div>
       </main>
       <% } else {%>
-    <h1>Polls of the day</h1>
-    <% let counter = 1;%>
-    <% for (const poll of polls) { %>
-      <div class="poll_question">
-        <h3><%= poll.question %></h3>
-        <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
-        <%counter += 1 %>
-      </div>
-    <% } %>
-    <% } %>
+    <div class="search-results">
+      <p class="bold-comment" id="search-results">Search results</p>
+      <% let counter = 1;%>
+      <% for (const poll of polls) { %>
+        <div class="poll_question">
+          <p class="bold-comment"><%= poll.question %></p>
+          <form method="GET" action="<%= poll.link %>">
+            <button id="search-vote">Vote</button>
+          </form>
+          <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
+          <%counter += 1 %>
+        </div>
+      <% } %>
+      <% } %>
+    </div>
+
   </body>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

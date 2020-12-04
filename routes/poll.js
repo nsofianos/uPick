@@ -66,7 +66,7 @@ module.exports = (db) => {
       console.log(search);
 
       const queryString = `
-      SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
+      SELECT polls.id, polls.submission_link, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
       FROM polls
       LEFT JOIN choices ON poll_id = polls.id
       LEFT JOIN choice_rankings ON choice_id = choices.id
@@ -76,6 +76,7 @@ module.exports = (db) => {
       `;
       db.query(queryString)
         .then(data => {
+          console.log(data.rows);
           const index = data.rows;
           // console.log(index);
           let currentPollId = -1; // or whatever you know will never exist
@@ -94,6 +95,7 @@ module.exports = (db) => {
               currentPollObj = {};
               currentPollObj.question = row.polls;
               currentPollObj.choicesNRanks = {};
+              currentPollObj.link = row.submission_link.slice(-13);
             }
             currentPollObj.choicesNRanks[row.choices] = row.rank === null ? 0 : Number(row.rank);
           }
