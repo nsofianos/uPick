@@ -8,10 +8,12 @@
 const express = require('express');
 const router = express.Router();
 const mailgun = require("mailgun-js");
-// ----------- ADD YOU OWN API KEY AND DOMAIN HERE ------------------
+// ------ ADD YOU OWN API KEY AND DOMAIN INTO .env -------------
+// load .env data into process.env
+require('dotenv').config();
 const apiKey = process.env.mailgun_api;
 const domain = process.env.mailgun_domain;
-// ------------------------------------------------------------------
+// --------------------------------------------------------------
 const mg = mailgun({ apiKey, domain });
 
 module.exports = (db) => {
@@ -133,6 +135,7 @@ module.exports = (db) => {
   // Add a new poll to database + redirect to voting page
   router.post("/", (req, res) => {
     const formData = req.body.text;
+    console.log("WHATS THE FORM DATA", formData);
     const title = formData[0];
     const email = formData[1];
     const description = formData[2];
@@ -187,7 +190,7 @@ module.exports = (db) => {
         console.log("DO WE MAKE IT HERE");
         // Send links to poll creator
         const emailLinks = {
-          from: 'uPick <leungcnie@gmail.com>',
+          from: 'uPick <kevinli296@outlook.com>',
           to: email,
           subject: 'You just made a poll!',
           html: `
@@ -287,7 +290,7 @@ module.exports = (db) => {
       .then(() => {
         // Send email to poll creator when vote is received
         const emailVoteNotif = {
-          from: 'uPick <leungcnie@gmail.com>',
+          from: 'uPick <kevinli296@outlook.com>',
           to: email,
           subject: 'Someone just voted on your poll!',
           html: `
