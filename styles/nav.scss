@@ -27,3 +27,33 @@ nav {
 #logo-button {
   background-color: #457b9d;
 }
+
+#nav-search-field {
+  margin-right: 0.5em;
+  border: none;
+  background-color: #6399BB;
+  color: #f1faee;
+  height: 50px;
+  width: 200px;
+  border-radius: 30px;
+  padding-left:2em;
+  outline: none;
+  font-size:20px;
+  font-weight: 100;
+}
+
+#nav-search-field::placeholder {
+  opacity: unset;
+  letter-spacing: 1px;
+}
+
+#search-icon {
+  position: absolute;
+  margin-left: 1em;
+  margin-top: 1em;
+  color: #f1faee;
+}
+
+#search-form {
+  display: flex;
+}

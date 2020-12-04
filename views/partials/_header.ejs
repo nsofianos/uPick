@@ -4,6 +4,8 @@
   <head>
 
     <title>uPick</title>
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Pacifico&family=Shrikhand&family=Fanwood+Text:ital@0;1&display=swap" rel="stylesheet">
@@ -25,7 +27,7 @@
       <form method="GET" action="/"><button id="logo-button" type="submit"><span id="logo">uPick<span id='checkmark'>&#10004;</span></span></button></form>
       <!-- Nav Buttons -->
       <div class="nav-buttons">
-        <form method="GET" action="/polls/search"><input type="text" name="search" placeholder="search"><button class="nav" id="nav-search">Search</button></input></form>
+        <form method="GET" action="/polls/search" id="search-form"><i id="search-icon" class="fas fa-search"></i><input id="nav-search-field" type="text" name="search" placeholder="Search polls.."><button class="nav" id="nav-search">Search</button></input></form>
         <form method="GET" action="/polls/create">
           <button class="nav" id="nav-create" type="submit">Create new poll</button>
         </form>
