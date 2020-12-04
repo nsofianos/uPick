@@ -63,7 +63,6 @@ module.exports = (db) => {
     // Render searched polls
     router.get("/search", (req, res) => {
       const search = req.query.search;
-      console.log(search);
 
       const queryString = `
       SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
@@ -81,11 +80,14 @@ module.exports = (db) => {
           let currentPollId = -1; // or whatever you know will never exist
           let currentPollObj = null;
           let polls = [];
+          let counter = 1;
           for (const row of index) {
             if (currentPollId != row.id) {
               // insert the previously constructed poll object into the array
               if (currentPollObj !== null) {
                 polls.push(currentPollObj);
+                if (counter > 10) break;
+                counter += 1;
               }
 
               // we've found a new unique poll id, create a new object to represent this new poll

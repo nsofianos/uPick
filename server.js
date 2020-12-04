@@ -45,7 +45,7 @@ const pepeRoutes = require("./routes/pepe");
 // Note: Feel free to replace the example routes below with your own
 app.use("/", indexRoutes(db));
 app.use("/polls", pollRoutes(db));
-app.use("/youfoundme", pepeRoutes(db));
+app.use("/poll/create", pepeRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 
