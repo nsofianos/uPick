@@ -22,36 +22,7 @@ module.exports = (db) => {
 
     db.query(queryString)
       .then(data => {
-        const index = data.rows;
-        console.log(index);
-        // console.log(index);
-        let currentPollId = -1; // or whatever you know will never exist
-        let currentPollObj = null;
-        let polls = [];
-        let counter = 1;
-        for (const row of index) {
-          if (currentPollId != row.id) {
-            if (counter > 3) break;
-            counter += 1;
-            // insert the previously constructed poll object into the array
-            if (currentPollObj !== null) {
-              polls.push(currentPollObj);
-            }
-
-            // we've found a new unique poll id, create a new object to represent this new poll
-            currentPollId = row.id;
-
-            currentPollObj = {};
-            currentPollObj.question = row.polls;
-            currentPollObj.choicesNRanks = {};
-          }
-          currentPollObj.choicesNRanks[row.choices] = row.rank === null ? 0 : Number(row.rank);
-        }
-        // insert the last poll object, since that won't be done in the loop
-        // note: what if you have no polls in the database?
-        polls.push(currentPollObj);
-        const templateVars = { polls };
-        res.render('index', templateVars);
+        res.render('pepe');
       })
       .catch(err => {
         res
