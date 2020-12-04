@@ -8,8 +8,68 @@
 const express = require('express');
 const router = express.Router();
 
+const shuffleArray = function(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+  }
+}
+
 module.exports = (db) => {
   router.get("/", (req, res) => {
+    const queryString = `
+    SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
+    FROM polls
+    LEFT JOIN choices ON poll_id = polls.id
+    LEFT JOIN choice_rankings ON choice_id = choices.id
+    GROUP BY polls.id, polls.title, choices.name
+    HAVING COUNT(choice_rankings.id) > 0
+    ORDER BY polls.id, COUNT(choice_rankings.ranking) DESC
+    `;
+
+    db.query(queryString)
+      .then(data => {
+        const index = data.rows;
+        // console.log('index: ', index);
+        let currentPollId = -1; // or whatever you know will never exist
+        let currentPollObj = null;
+        let polls = [];
+        for (const row of index) {
+          if (currentPollId != row.id) {
+            // insert the previously constructed poll object into the array
+            if (currentPollObj !== null) {
+              polls.push(currentPollObj);
+            }
+
+            // we've found a new unique poll id, create a new object to represent this new poll
+            currentPollId = row.id;
+
+            currentPollObj = {};
+            currentPollObj.question = row.polls;
+            currentPollObj.choicesNRanks = {};
+          }
+          currentPollObj.choicesNRanks[row.choices] = row.rank === null ? 0 : Number(row.rank);
+        }
+        // insert the last poll object, since that won't be done in the loop
+        // note: what if you have no polls in the database?
+        if (currentPollObj !== null) {
+        polls.push(currentPollObj);
+        }
+        shuffleArray(polls);
+        polls = polls.slice(0, 3);
+        const templateVars = { polls };
+        res.render('index', templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/randomize", (req, res) => {
     const queryString = `
     SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
     FROM polls
