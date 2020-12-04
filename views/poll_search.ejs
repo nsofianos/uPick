@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home Page</title>
+
+    <!-- CSS styling -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <!-- App js -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+
+    <!-- External js -->
+  </head>
+  <header>
+    <%- include('partials/_header'); %>
+  </header>
+
+  <body>
+    <h1>Polls of the day</h1>
+    <% let counter = 1;%>
+    <% for (const poll of polls) { %>
+      <div class="poll_question">
+        <h3><%= poll.question %></h3>
+        <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
+        <%counter += 1 %>
+      </div>
+    <% } %>
+  </body>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    let polls = <%- JSON.stringify(polls) %>;
+
+    console.log(polls);
+
+    function drawChart() {
+
+    let counter = 1;
+    for (const poll of polls) {
+      let tableData = [['Choices', 'Ranks']];
+      let tableOptions = {
+        backgroundColor: '#D3ECEE',
+        title: poll.questions,
+        pieHole: 0.6,
+        colors: ['#E63946', '#457B9D', '#1D3557', '#A8DADC', '#F1FAEE'],
+        legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' },
+      };
+     for (const choice in poll.choicesNRanks) {
+       tableData.push([choice, poll.choicesNRanks[choice]])
+     }
+     let chart = new google.visualization.PieChart(document.getElementById(`piechart${counter}`));
+     counter += 1;
+     chart.draw(google.visualization.arrayToDataTable(tableData), tableOptions);
+     }
+
+    }
+  </script>
+</html>
