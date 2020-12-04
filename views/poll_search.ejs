@@ -14,12 +14,12 @@
     <% if (polls.length === 0) {%>
       <main>
         <div class="cheeky-comment">
-          <p class="bold-comment">This poll doesn't exist</p>
-          <p class="light-comment">(Talk to me when you have the right search, bucko)</p>
+          <p class="bold-comment">No results found</p>
+          <p class="light-comment">(Unlucky)</p>
         </div>
       </main>
       <% } else {%>
-    <h1>Polls of the day</h1>
+    <h1>Search results</h1>
     <% let counter = 1;%>
     <% for (const poll of polls) { %>
       <div class="poll_question">

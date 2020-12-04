@@ -1,0 +1,28 @@
+main.my-polls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table {
+width: 500px;
+height: 200px;
+text-align: center;
+}
+
+th {
+  font-weight: 100;
+}
+
+a {
+  font-size: 30px;
+}
+
+#mypolls-comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1em;
+  width: 400px;
+  border-bottom: solid;
+}

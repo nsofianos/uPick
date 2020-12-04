@@ -50,7 +50,7 @@ module.exports = (db) => {
 
         // Otherwise render a page of user's polls
         console.log("what r the data.rows", data.rows)
-        const templateVars = {polls, loggedIn : true, emailExists: true};
+        const templateVars = {polls, email, loggedIn : true, emailExists: true};
         res.render("poll_browsing", templateVars);
       })
       .catch(err => {

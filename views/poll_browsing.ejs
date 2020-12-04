@@ -5,7 +5,7 @@
   <!-- Header Partial, includes app CSS/scripts -->
   <%- include('partials/_header') %>
   <!-- Poll Create CSS -->
-  <link rel="stylesheet" href="/styles/create.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/mypolls.css" type="text/css" />
   <!-- Poll Options Script -->
   <script type="text/javascript" src="/scripts/poll_options.js"></script>
 </head>
@@ -26,15 +26,12 @@
     </div>
   </main>
   <% } else { %>
-  <main>
-    <h3>My polls</h3>
+  <main class="my-polls">
+    <div id="mypolls-comments">
+      <p class="bold-comment">My polls</p>
+      <p class="light-comment">Logged in as <%= email %></p>
+    </div>
     <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Poll</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
       <tbody>
         <% for(let poll of polls) { %>
           <% console.log("poll.id", poll.id) %>
@@ -42,7 +39,7 @@
           <td><a href="<%= poll.submission_link %>"><%= poll.title %></a></td>
           <td>
             <form method="POST" action="/polls/<%= poll.id %>/delete">
-              <button type="submit">Delete</button>
+              <button id="mypolls-delete" type="submit">Delete</button>
             </form>
           </td>
         </tr>
