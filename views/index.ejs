@@ -6,7 +6,8 @@
     <%- include('partials/_header'); %>
     <!-- Home page CSS -->
       <link rel="stylesheet" href="/styles/index.css" type="text/css" />
-      <!-- Google chart API -->
+      <link rel="stylesheet" href="/styles/results.css" type="text/css" />
+
       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
       <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
@@ -27,7 +28,7 @@
           legend: { position: 'right', textStyle: { fontSize: 20, fontName: 'Oswald' }, alignment: 'center' },
         };
       for (const choice in poll.choicesNRanks) {
-        tableData.push([choice, poll.choicesNRanks[choice]])
+        tableData.push([choice, poll.choicesNRanks[choice].rank])
       }
       let chart = new google.visualization.PieChart(document.getElementById(`piechart${counter}`));
       counter += 1;
@@ -46,7 +47,7 @@
         <p class="bold-comment">Polls of the day</p>
         <p class="light-comment">(Maybe yours will be featured one day)</p>
       </div>
-
+      
       <div>
       <% let counter = 1;%>
       <% for (const poll of polls) { %>
@@ -54,6 +55,19 @@
           <h3><%= poll.question %></h3>
           <div id="piechart<%=`${counter}`%>" style="width: 900px; height: 500px;"></div>
           <%counter += 1 %>
+        </div>
+        <div class="poll-results" id="poll-results">
+          <p class="bold-comment" id="results-title"><%= poll.question %></p>
+          <p class="light-comment" id="results-description"><%= poll.description %></p>
+          <ul>
+            <% for (const key in poll.choicesNRanks) { %>
+              <% let choice = poll.choicesNRanks[key]%>
+              <div class="choice-result">
+                <li class="results-list"><%= key %></li>
+                <span class="percentage"><%= choice.percentage %>%</span>
+              </div>
+              <% } %>
+          </ul>
         </div>
       <% } %>
     </div>
