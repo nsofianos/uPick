@@ -30,8 +30,8 @@ module.exports = (db) => {
     // If user hasn't logged in, redirect to error page
     if (!email) {
       res.render("poll_browsing", {loggedIn: false, emailExists: null});
+      return;
     }
-
     // Get poll's id, submission_link, and title
     const queryString = `
     SELECT polls.id, polls.submission_link, polls.title
@@ -64,7 +64,7 @@ module.exports = (db) => {
     router.get("/search", (req, res) => {
       const search = req.query.search;
       console.log(search);
-  
+
       const queryString = `
       SELECT polls.id, polls.title AS polls, choices.name AS choices, SUM(choice_rankings.ranking) AS rank
       FROM polls
@@ -87,10 +87,10 @@ module.exports = (db) => {
               if (currentPollObj !== null) {
                 polls.push(currentPollObj);
               }
-  
+
               // we've found a new unique poll id, create a new object to represent this new poll
               currentPollId = row.id;
-  
+
               currentPollObj = {};
               currentPollObj.question = row.polls;
               currentPollObj.choicesNRanks = {};

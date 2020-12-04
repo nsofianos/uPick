@@ -28,6 +28,9 @@
       <!-- Nav Buttons -->
       <div class="nav-buttons">
         <form method="GET" action="/polls/search" id="search-form"><i id="search-icon" class="fas fa-search"></i><input id="nav-search-field" type="text" name="search" placeholder="Search polls.."><button class="nav" id="nav-search">Search</button></input></form>
+        <form method="GET" action="/polls/">
+          <button id="mypolls-btn">My polls</button>
+        </form>
         <form method="GET" action="/polls/create">
           <button class="nav" id="nav-create" type="submit">Create new poll</button>
         </form>
