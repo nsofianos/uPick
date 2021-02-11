@@ -3,7 +3,7 @@ LHL Node Skeleton
 
 # uPick
 
-uPick is a poll maker app built with HTML and SCSS on the front-end, and NodeJS, Express, EJS, and PostgreSQL on the back-end. Users can search, browse, create, share, and vote on polls. The app incorporates Google graph API to create charts and mailgun API to send email notifications to the user whenever a user creates a new poll, or when someone's voted on a poll.t)
+uPick is a poll maker app built with HTML and SCSS on the front-end, and NodeJS, Express, EJS, and PostgreSQL on the back-end. Users can search, browse, create, share, and vote on polls. The app incorporates Google graph API to create charts and mailgun API to send email notifications to the user whenever a user creates a new poll, or when someone's voted on a poll.
 
 
 ## Getting Started
