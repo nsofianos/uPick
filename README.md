@@ -32,3 +32,10 @@ uPick is a poll maker app built with HTML and SCSS on the front-end, and NodeJS,
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+
+## Screenshots
+
+!["Poll creation"](https://github.com/nsofianos/uPick/blob/master/docs/Screenshot%20from%202021-02-10%2018-25-15.png?raw=true)
+!["Poll voting"](https://github.com/nsofianos/uPick/blob/master/docs/Screenshot%20from%202021-02-10%2018-26-54.png?raw=true)
+!["Poll results"](https://github.com/nsofianos/uPick/blob/master/docs/Screenshot%20from%202021-02-10%2018-27-05.png?raw=true)
+!["Search results"](https://github.com/nsofianos/uPick/blob/master/docs/Screenshot%20from%202021-02-10%2018-27-21.png?raw=true)
